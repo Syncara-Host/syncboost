@@ -92,6 +92,14 @@ SyncBoost works seamlessly with popular plugins:
 
 ---
 
+## 📊 Usage Statistics
+SyncBoost anonymously collects data via **[bStats](https://bstats.org/plugin/bukkit/SyncBoost/29119)** to help us improve performance.
+You can disable this in `plugins/bStats/config.yml`.
+
+![bStats](https://bstats.org/signatures/bukkit/SyncBoost.svg)
+
+---
+
 ## ⚙️ Configuration
 Configuration is split into:
 - `config.yml` - Main plugin settings (prefix, permissions, updater).
@@ -155,6 +163,6 @@ We explicitly acknowledge and thank **[Jenya705](https://github.com/Jenya705)** 
 ---
 
 <div align="center">
-  <p>Made with <3 by <b>[Syncara Host](https://syncara.host)</b></p>
+  <p>Made with <3 by <b>Syncara Host</b></p>
   <p>© 2026 Syncara Host. All rights reserved.</p>
 </div>
