@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ColoredLogger extends Logger {
 
     public ColoredLogger() {
-        super(ColoredLogger.convertStringMessage("&e⚡"), null);
+        super("SyncBoost", null);
         this.setParent(Bukkit.getLogger());
         this.setLevel(Level.ALL);
     }

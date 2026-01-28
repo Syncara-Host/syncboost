@@ -132,7 +132,7 @@ public class MapCommand extends CommandManager.Subcommand {
 
             MapMeta meta = (MapMeta) this.mapItem.getItemMeta();
             meta.setMapView(this.mapView);
-            meta.setDisplayName(MessageUtils.fixColors(null, "&e⚡ &fServer monitor! &e⚡"));
+            meta.setDisplayName(MessageUtils.fixColors(null, "&b&lSyncBoost &fMonitor"));
             this.mapItem.setItemMeta(meta);
 
             this.mapView.getRenderers().clear();

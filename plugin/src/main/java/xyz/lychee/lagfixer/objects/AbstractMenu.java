@@ -25,16 +25,16 @@ import java.util.function.Consumer;
 
 @Getter
 public abstract class AbstractMenu implements Listener {
-    private static final @Getter ItemStack border = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName("&8#").build();
-    private static final @Getter ItemStack filler = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName("&8#").build();
+    private static final @Getter ItemStack border = new ItemBuilder(Material.BLUE_STAINED_GLASS_PANE).setName("§8#").build();
+    private static final @Getter ItemStack filler = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName("§8#").build();
     private static final @Getter ItemStack disabled;
     private static final @Getter ItemStack enabled;
     private static final @Getter ItemStack back;
 
     static {
-        enabled = ItemBuilder.createSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTkwNzkzZjU2NjE2ZjEwMTUwMmRlMWQzNGViMjU0NGY2MDdkOTg5MDBlMzY5OTM2OTI5NTMxOWU2MzBkY2Y2ZCJ9fX0=").setName("&a&lENABLED!").setLore(" &8{*} &7Click to &cdisable &7this module!").build();
-        disabled = ItemBuilder.createSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZDlhNDViOTY4MWNlYTViMjhjNzBmNzVhNjk1NmIxZjU5NGZlYzg0MGI5NjA3Nzk4ZmIxZTcwNzc2NDQzMCJ9fX0=").setName("&c&lDISABLED!").setLore(" &8{*} &7Click to &aenable &7this module!").build();
-        back = ItemBuilder.createSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM0OTM5ZDI2NDQ0YTU3MzI3ZjA2NGMzOTI4ZGE2MWYzNmNhZjYyMmRlYmU3NGMzM2Y4ZjhhMzZkYTIyIn19fQ==").setName("&3&lPREVIOUS MENU!").setLore(" &8{*} &7Click to &3return &7to previous menu!").build();
+        enabled = ItemBuilder.createSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTkwNzkzZjU2NjE2ZjEwMTUwMmRlMWQzNGViMjU0NGY2MDdkOTg5MDBlMzY5OTM2OTI5NTMxOWU2MzBkY2Y2ZCJ9fX0=").setName("§a§lENABLED").setLore(" §8» §7Click to §cdisable §7this module!").build();
+        disabled = ItemBuilder.createSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTRiZDlhNDViOTY4MWNlYTViMjhjNzBmNzVhNjk1NmIxZjU5NGZlYzg0MGI5NjA3Nzk4ZmIxZTcwNzc2NDQzMCJ9fX0=").setName("§c§lDISABLED").setLore(" §8» §7Click to §aenable §7this module!").build();
+        back = ItemBuilder.createSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM0OTM5ZDI2NDQ0YTU3MzI3ZjA2NGMzOTI4ZGE2MWYzNmNhZjYyMmRlYmU3NGMzM2Y4ZjhhMzZkYTIyIn19fQ==").setName("§9§lPREVIOUS MENU").setLore(" §8» §7Click to §9return §7to previous menu!").build();
     }
 
     private final LagFixer plugin;

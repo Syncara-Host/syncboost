@@ -51,11 +51,13 @@ public class ConfigManager extends AbstractManager implements Listener {
         this.loadConfig(config, configFile);
 
         this.prefix = MessageUtils.colors(null, config.getString("main.prefix", ""))
-                .clickEvent(ClickEvent.openUrl("https://bit.ly/lagfixer-modrinth"));
+                .clickEvent(ClickEvent.openUrl("https://github.com/Syncara-Host/syncboost"));
 
         if (config.getBoolean("main.prefix_hover")) {
-            TextComponent description = MessageUtils.colors(null, "&fLagFixer &e" + this.getPlugin().getDescription().getVersion() + "\n &8{*} &7Click to open plugin in modrinth!");
-            this.prefix = this.prefix.hoverEvent(HoverEvent.showText(Component.empty().append(this.prefix).append(description)));
+            TextComponent description = MessageUtils.colors(null, "&fSyncBoost &e"
+                    + this.getPlugin().getDescription().getVersion() + "\n &8{*} &7Click to view on GitHub!");
+            this.prefix = this.prefix
+                    .hoverEvent(HoverEvent.showText(Component.empty().append(this.prefix).append(description)));
         }
     }
 
@@ -67,8 +69,7 @@ public class ConfigManager extends AbstractManager implements Listener {
             try (InputStream defConfigStream = this.getPlugin().getResource(file.getName())) {
                 if (defConfigStream != null) {
                     YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(
-                            new InputStreamReader(defConfigStream, StandardCharsets.UTF_8)
-                    );
+                            new InputStreamReader(defConfigStream, StandardCharsets.UTF_8));
                     cfg.setDefaults(defConfig);
                 }
             }

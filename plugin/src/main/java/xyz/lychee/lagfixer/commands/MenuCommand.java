@@ -20,7 +20,7 @@ public class MenuCommand extends CommandManager.Subcommand {
     private HardwareMenu hardwareMenu;
 
     public MenuCommand(CommandManager commandManager) {
-        super(commandManager, "menu", "open lagfixer menu, and edit configuration", "gui");
+        super(commandManager, "menu", "open syncboost menu, and edit configuration", "gui");
         instance = this;
     }
 
@@ -28,14 +28,14 @@ public class MenuCommand extends CommandManager.Subcommand {
     public void load() {
         LagFixer plugin = this.getCommandManager().getPlugin();
 
-        this.mainMenu = new MainMenu(plugin, 27, MessageUtils.fixColors(null, "&8[&e&l⚡&8] &fMenu! &8| &eLagFixer"));
+        this.mainMenu = new MainMenu(plugin, 27, MessageUtils.fixColors(null, "&8[&9&lSyncBoost&8] &fMenu"));
         this.mainMenu.load();
 
-        this.modulesMenu = new ModulesMenu(plugin, 45, MessageUtils.fixColors(null, "&8[&e&l⚡&8] &fModules! &8| &eLagFixer"));
+        this.modulesMenu = new ModulesMenu(plugin, 45, MessageUtils.fixColors(null, "&8[&9&lSyncBoost&8] &fModules"));
         this.modulesMenu.load();
 
         try {
-            this.hardwareMenu = new HardwareMenu(plugin, 27, MessageUtils.fixColors(null, "&8[&e&l⚡&8] &fHardware! &8| &eLagFixer"));
+            this.hardwareMenu = new HardwareMenu(plugin, 27, MessageUtils.fixColors(null, "&8[&9&lSyncBoost&8] &fHardware"));
             this.hardwareMenu.load();
         } catch (Throwable ignored) {}
     }

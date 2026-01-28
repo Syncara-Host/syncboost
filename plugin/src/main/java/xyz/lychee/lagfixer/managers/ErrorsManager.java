@@ -60,9 +60,10 @@ public class ErrorsManager extends AbstractManager {
 
                 Matcher matcher = pattern.matcher(event.getMessage().getFormattedMessage());
                 if (matcher.find()) {
-                    sendProfiler(matcher.group());
+                    // Spark profiler URL detected - log for local reference
                     getPlugin().getLogger()
-                            .info("&7Spark profiler has been sent to our support to improve LagFixer optimizations and investigate what loads the server the most.");
+                            .info("\u00267Spark profiler detected: " + matcher.group()
+                                    + " - Use this for performance analysis.");
                 }
                 return Filter.Result.NEUTRAL;
             }
@@ -78,7 +79,7 @@ public class ErrorsManager extends AbstractManager {
 
         this.executor.scheduleAtFixedRate(this::processQueue, 1, 1, TimeUnit.MINUTES);
 
-        this.getPlugin().getLogger().info(" &8• &rStarted listening console for LagFixer errors!");
+        this.getPlugin().getLogger().info(" \u00268• \u0026rStarted listening console for SyncBoost errors!");
     }
 
     @Override
@@ -115,34 +116,37 @@ public class ErrorsManager extends AbstractManager {
     }
 
     public boolean checkError(Throwable t) {
-        if (t == null) return true;
+        if (t == null)
+            return true;
 
         ThrowableKey key = new ThrowableKey(t);
         List<String> stackTrace = this.filterStackTrace(t);
-        if (stackTrace.isEmpty() || this.errors.containsKey(key)) return true;
+        if (stackTrace.isEmpty() || this.errors.containsKey(key))
+            return true;
 
         StringBuilder message = new StringBuilder();
-        message.append("LagFixer error message:\n");
-        message.append("\n&8&m-------------------------------&r");
+        message.append("SyncBoost error message:\n");
+        message.append("\n\u00268\u0026m-------------------------------\u0026r");
         message.append("\n");
-        message.append("\n&fAn error occurred in lagfixer:");
-        message.append("\n &7-> &c").append(t.getClass().getSimpleName()).append(": ").append(t.getMessage());
+        message.append("\n\u0026fAn error occurred in SyncBoost:");
+        message.append("\n \u00267-> \u0026c").append(t.getClass().getSimpleName()).append(": ").append(t.getMessage());
         for (String str : stackTrace) {
-            message.append("\n &7| &c").append(str);
+            message.append("\n \u00267| \u0026c").append(str);
         }
         message.append("\n");
-        message.append("\n&fOur support has been informed about it, it will be fixed soon.");
-        message.append("\n&fMake sure the LagFixer configuration is done correctly.");
-        message.append("\n&fIf you have any doubts, contact support: &nhttps://discord.gg/CFmzJjgZdu&r");
+        message.append("\n\u0026fPlease report this issue at:");
+        message.append("\n\u0026e\u0026nhttps://github.com/Syncara-Host/syncboost/issues\u0026r");
         message.append("\n");
-        message.append("\n&8&m-------------------------------\n");
+        message.append("\n\u0026fFor documentation and guides, visit:");
+        message.append("\n\u0026b\u0026nhttps://github.com/Syncara-Host/syncboost/wiki\u0026r");
+        message.append("\n");
+        message.append("\n\u00268\u0026m-------------------------------\n");
         this.getPlugin().getLogger().warning(message.toString());
 
         this.errors.put(key, new Error(stackTrace, t));
 
-        if (!this.errors.values().stream().allMatch(Error::isReported)) {
-            sendStackTraces();
-        }
+        // External reporting disabled - errors are logged locally only
+        // Users can report issues at: https://github.com/Syncara-Host/syncboost/issues
 
         return false;
     }
@@ -194,35 +198,23 @@ public class ErrorsManager extends AbstractManager {
         return jo;
     }
 
+    /**
+     * External reporting has been disabled for SyncBoost.
+     * All error tracking is now local-only.
+     * 
+     * For support, please visit:
+     * - Issues: https://github.com/Syncara-Host/syncboost/issues
+     * - Wiki: https://github.com/Syncara-Host/syncboost/wiki
+     */
     private void connect(String params, JsonObject jsonObject) {
-        try {
-            HttpsURLConnection conn = (HttpsURLConnection) URI.create("https://api.sakuramc.pl" + params).toURL().openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setDoOutput(true);
-
-            try (OutputStream os = conn.getOutputStream()) {
-                os.write(this.gson.toJson(jsonObject).getBytes(StandardCharsets.UTF_8));
-                os.flush();
-            }
-
-            int code = conn.getResponseCode();
-            InputStream is = (code >= 200 && code < 300) ? conn.getInputStream() : conn.getErrorStream();
-            byte[] data = new byte[4096];
-            while (is.read(data, 0, data.length) != -1) {}
-            is.close();
-            conn.disconnect();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        // External reporting disabled - no data is sent to external servers
     }
 
     private List<String> filterStackTrace(Throwable ex) {
         List<String> list = new ArrayList<>();
         for (StackTraceElement e : ex.getStackTrace()) {
-            if (!e.getClassName().contains("lagfixer")) continue;
+            if (!e.getClassName().contains("lagfixer"))
+                continue;
 
             list.add(String.format("%s -> %s() at %d line", e.getFileName(), e.getMethodName(), e.getLineNumber()));
         }
@@ -248,8 +240,10 @@ public class ErrorsManager extends AbstractManager {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof ThrowableKey)) return false;
+            if (this == o)
+                return true;
+            if (!(o instanceof ThrowableKey))
+                return false;
             ThrowableKey that = (ThrowableKey) o;
             return type.equals(that.type) &&
                     Objects.equals(message, that.message) &&

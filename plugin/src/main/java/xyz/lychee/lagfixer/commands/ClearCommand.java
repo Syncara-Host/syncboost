@@ -30,13 +30,13 @@ public class ClearCommand extends CommandManager.Subcommand {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 1) {
-            MessageUtils.sendMessage(true, sender, "&7Usage: &f/lagfixer clear <items|creatures|projectiles>");
+            MessageUtils.sendMessage(true, sender, "&cUsage §8» &7/syncboost clear <items|creatures|projectiles>");
             return true;
         }
 
         WorldCleanerModule module = ModuleManager.getInstance().get(WorldCleanerModule.class);
         if (module == null || !module.isLoaded()) {
-            MessageUtils.sendMessage(true, sender, "&7WorldCleaner module is disabled!");
+            MessageUtils.sendMessage(true, sender, "&c&lERROR §8» &7WorldCleaner module is disabled!");
             return true;
         }
 
@@ -53,7 +53,7 @@ public class ClearCommand extends CommandManager.Subcommand {
                             ai.incrementAndGet();
                         });
 
-                return MessageUtils.sendMessage(true, sender, "&7Successfully removed &e" + ai.get() + " &7items.");
+                return MessageUtils.sendMessage(true, sender, "&9&lSyncBoost §8» &7Successfully removed &b" + ai.get() + " &7items.");
             case "creatures":
                 module.getAllowedWorldsStream()
                         .flatMap(w -> w.getEntitiesByClass(Mob.class).stream())
@@ -63,7 +63,7 @@ public class ClearCommand extends CommandManager.Subcommand {
                             ai.incrementAndGet();
                         });
 
-                return MessageUtils.sendMessage(true, sender, "&7Successfully removed &e" + ai.get() + " &7creatures.");
+                return MessageUtils.sendMessage(true, sender, "&9&lSyncBoost §8» &7Successfully removed &b" + ai.get() + " &7creatures.");
             case "projectiles":
                 module.getAllowedWorldsStream()
                         .flatMap(w -> w.getEntitiesByClass(Projectile.class).stream())
@@ -73,9 +73,9 @@ public class ClearCommand extends CommandManager.Subcommand {
                             ai.incrementAndGet();
                         });
 
-                return MessageUtils.sendMessage(true, sender, "&7Successfully removed &e" + ai.get() + " &7projectiles.");
+                return MessageUtils.sendMessage(true, sender, "&9&lSyncBoost §8» &7Successfully removed &b" + ai.get() + " &7projectiles.");
             default:
-                return MessageUtils.sendMessage(true, sender, "&7Invalid clear type: &f" + type);
+                return MessageUtils.sendMessage(true, sender, "&c&lERROR §8» &7Invalid clear type: &f" + type);
         }
     }
 

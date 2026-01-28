@@ -21,11 +21,11 @@ public class MonitorCommand extends CommandManager.Subcommand {
     public boolean execute(@NotNull org.bukkit.command.CommandSender sender, @NotNull String[] args) {
         AbstractMonitor monitor = SupportManager.getInstance().getMonitor();
         return MessageUtils.sendMessage(true, sender,
-                "&7Command result: " +
-                        "\n &8{*} &fTps: &e" + monitor.getTps() +
-                        "\n &8{*} &fMspt: &e" + monitor.getMspt() +
-                        "\n &8{*} &fMemory: &e" + monitor.getRamUsed() + "&8/&e" + monitor.getRamTotal() + "&8/&e" + monitor.getRamMax() + " MB" +
-                        "\n &8{*} &fCpu process: &e" + monitor.getCpuProcess() + "%" +
-                        "\n &8{*} &fCpu system: &e" + monitor.getCpuSystem() + "%");
+                "&9&lSyncBoost &fMonitor:" +
+                        "\n §8» &7TPS: &b" + monitor.getTps() +
+                        "\n §8» &7MSPT: &b" + monitor.getMspt() +
+                        "\n §8» &7Memory: &b" + monitor.getRamUsed() + "§8/§b" + monitor.getRamTotal() + "§8/§b" + monitor.getRamMax() + " MB" +
+                        "\n §8» &7CPU Process: &b" + monitor.getCpuProcess() + "%" +
+                        "\n §8» &7CPU System: &b" + monitor.getCpuSystem() + "%");
     }
 }

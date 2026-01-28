@@ -29,7 +29,7 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
     @Override
     public boolean execute(@NotNull org.bukkit.command.CommandSender sender, @NotNull String[] args) {
         if (this.benchmark) {
-            return MessageUtils.sendMessage(true, sender, "&7Benchmark is running, wait for results in console!");
+            return MessageUtils.sendMessage(true, sender, "&bBenchmark is running, wait for results in console!");
         }
 
         AbstractMonitor monitor = SupportManager.getInstance().getMonitor();
@@ -44,7 +44,7 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
 
         BukkitTask task = SupportManager.getInstance().getFork().runTimer(true, () -> {
             if (this.benchmark) {
-                MessageUtils.sendMessage(true, sender, "&7Async benchmark in progress, wait for results...");
+                MessageUtils.sendMessage(true, sender, "&bAsync benchmark in progress, wait for results...");
             }
         }, 1, 2, TimeUnit.SECONDS);
 
@@ -61,14 +61,14 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
                 String result = b.getResult().toString();
                 ErrorsManager.getInstance().sendBenchmark(b);
 
-                MessageUtils.sendMessage(true, sender, "&7Benchmark done in &f" + t.stop().getExecutingTime() + "&7ms, results:&f" + result);
+                MessageUtils.sendMessage(true, sender, "&9&lSyncBoost &8» &7Benchmark done in &b" + t.stop().getExecutingTime() + "&7ms, results:&f" + result);
                 this.getCommandManager().getPlugin().getLogger().info(result);
             } catch (Exception e) {
                 MessageUtils.sendMessage(true, sender, "&cBenchmark error: " + e.getMessage());
             }
             this.benchmark = false;
         });
-        thread.setName("LagFixer Benchmark");
+        thread.setName("SyncBoost Benchmark");
         thread.setPriority(Thread.MAX_PRIORITY);
         thread.start();
 
@@ -78,7 +78,7 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
     public Benchmark runBenchmarks(int warmup, int cpu, int arrayLength, int memoryPasses) {
         Benchmark benchmark = new Benchmark(cpu);
 
-        benchmark.getResult().append("\n \n&8&m    &r&8[ &eLagFixer Advanced CPU Benchmark &8]&m    &r\n ");
+        benchmark.getResult().append("\n \n&8&m    &r&8[ &b&lSyncBoost Advanced CPU Benchmark &8]&m    &r\n ");
         for (int i = 0; i < warmup; i++) {
             cpuTest(1_000_000);
         }
@@ -101,9 +101,9 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
         }
 
         benchmark.getResult()
-                .append("\n &8• &fAverage performance: &e").append(totalScore / cpu).append(" Gop/s")
-                .append("\n &8• &fBest time: &e").append(bestScore / 1_000_000_000D).append(" s")
-                .append("\n &8• &fWorst time: &e").append(worstScore / 1_000_000_000D).append(" s");
+                .append("\n §8» &7Average performance: &b").append(totalScore / cpu).append(" Gop/s")
+                .append("\n §8» &7Best time: &b").append(bestScore / 1_000_000_000D).append(" s")
+                .append("\n §8» &7Worst time: &b").append(worstScore / 1_000_000_000D).append(" s");
 
         benchmark.setCpu_checksum(checksum);
         benchmark.setTotalScore(totalScore / cpu);
@@ -111,7 +111,7 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
         benchmark.setWorstScore(worstScore);
 
         // RAM Benchmark
-        benchmark.getResult().append("\n \n&8&m    &r&8[ &eLagFixer Advanced RAM Benchmark &8]&m    &r\n ");
+        benchmark.getResult().append("\n \n&8&m    &r&8[ &b&lSyncBoost Advanced RAM Benchmark &8]&m    &r\n ");
 
         long[] array = new long[arrayLength];
         int[] randomIndices = new int[arrayLength];
@@ -131,7 +131,7 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
             writeTime += System.nanoTime() - start;
         }
         double writeSpeed = (arrayLength * 4D * memoryPasses) / (1024D * 1024D) / (writeTime / 1_000_000_000D);
-        benchmark.getResult().append(String.format("\n &8• &fSequential write: &e%.2f MB/s", writeSpeed));
+        benchmark.getResult().append(String.format("\n §8» &7Sequential write: &b%.2f MB/s", writeSpeed));
         benchmark.setWriteSpeed(writeSpeed);
 
         // Sequential Read
@@ -145,7 +145,7 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
             readTime += System.nanoTime() - start;
         }
         double readSpeed = (arrayLength * 4D * memoryPasses) / (1024D * 1024D) / (readTime / 1_000_000_000D);
-        benchmark.getResult().append(String.format("\n &8• &fSequential read: &e%.2f MB/s", readSpeed));
+        benchmark.getResult().append(String.format("\n §8» &7Sequential read: &b%.2f MB/s", readSpeed));
         benchmark.setReadSpeed(readSpeed);
 
         // Random Access
@@ -159,7 +159,7 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
             randomTime += System.nanoTime() - start;
         }
         double randomSpeed = (arrayLength * 4D * memoryPasses) / (1024D * 1024D) / (randomTime / 1_000_000_000D);
-        benchmark.getResult().append(String.format("\n &8• &fRandom access: &e%.2f MB/s\n ", randomSpeed));
+        benchmark.getResult().append(String.format("\n §8» &7Random access: &b%.2f MB/s\n ", randomSpeed));
         benchmark.setRandomSpeed(randomSpeed);
 
         return benchmark;

@@ -33,10 +33,10 @@ public class FreeCommand extends CommandManager.Subcommand {
 
             long diff = before - after;
             if (diff <= 0) {
-                MessageUtils.sendMessage(true, sender, "&7Unable to free RAM, you need to remove jvm argument: &e&n-XX:+DisableExplicitGC&7!");
+                MessageUtils.sendMessage(true, sender, "&c&lERROR &8» &7Unable to free RAM. Remove JVM argument: &f&n-XX:+DisableExplicitGC&7");
             } else {
                 long freedMB = diff / (1024 * 1024);
-                MessageUtils.sendMessage(true, sender, "&7Successfully freed &e" + freedMB + " &7MB of memory.");
+                MessageUtils.sendMessage(true, sender, "&9&lSyncBoost &8» &7Successfully freed &b" + freedMB + "MB &7of memory.");
             }
         });
         return true;

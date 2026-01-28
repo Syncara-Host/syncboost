@@ -124,7 +124,7 @@ public abstract class AbstractModule {
                 this.config.options().copyDefaults(true);
                 this.config.save(configFile);
 
-                mainCfg.set(sectionPath, "Configuration has been moved to \"LagFixer/modules/" + this.name + ".yml\"");
+                mainCfg.set(sectionPath, "Configuration has been moved to \"SyncBoost/modules/" + this.name + ".yml\"");
                 return;
             }
         }

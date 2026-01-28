@@ -1,52 +1,53 @@
-#░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-#░██╗░░░░░░█████╗░░██████╗░░░███████╗██╗██╗░░██╗███████╗██████╗░░
-#░██║░░░░░██╔══██╗██╔════╝░░░██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░
-#░██║░░░░░███████║██║░░██╗░░░█████╗░░██║░╚███╔╝░█████╗░░██████╔╝░
-#░██║░░░░░██╔══██║██║░░╚██╗░░██╔══╝░░██║░██╔██╗░██╔══╝░░██╔══██╗░
-#░███████╗██║░░██║╚██████╔╝░░██║░░░░░██║██╔╝╚██╗███████╗██║░░██║░
-#░╚══════╝╚═╝░░╚═╝░╚═════╝░░░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░
-#░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+# ╔═══════════════════════════════════════════════════════════════════╗
+# ║  SyncBoost - Server Performance Optimizer by Syncara Host         ║
+# ║  GitHub: https://github.com/Syncara-Host/syncboost                ║
+# ╚═══════════════════════════════════════════════════════════════════╝
 
-#-----------------> TUTORIALS <-----------------#
+#------------------> TUTORIALS <------------------#
 #
 # Hex colors and gradients usage:
 # - https://docs.advntr.dev/minimessage/format.html
 #
-# (SOON) PlaceholderAPI usage:
+# SyncBoost Color Scheme:
+# - Primary: #064FB4 (Blue)
+# - Secondary: #02276D (Dark Blue)
+# - Accent: #FFFFFF (White)
+# - Background: #000216 (Dark Navy)
+#
+# PlaceholderAPI usage:
 # - Format: <papi:[papi_placeholder]>
 # - Example: <papi:luckperms_prefix>
 #
-#-----------------> TUTORIALS <-----------------#
+#------------------> TUTORIALS <------------------#
 
-#soon it will be possible to translate all messages
 messages:
   Main:
-    no_access: "<gray>Missing permission to this module: <yellow><permission>"
-    disabled_module: "<gray>Module <yellow><module> <gray>is disabled, administration must enable this feature!"
-    player_only: "<gray>Command can be only executed by player!"
+    no_access: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>Missing permission to this module: <color:#064FB4><permission></color>"
+    disabled_module: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>Module <color:#064FB4><module></color> <gray>is disabled, administration must enable this feature!"
+    player_only: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>Command can be only executed by player!"
 
   RedstoneLimiter:
-    alert: "<gray>Blocked <yellow><ticks> <gray>redstone ticks at chunk in <gradient:#c48d00:#fffb00><location></gradient><gray>!"
-    cooldown: "<gray>You can use <material> again in <gradient:#c48d00:#fffb00><cooldown></gradient><gray>ms."
+    alert: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>Blocked <color:#064FB4><ticks></color> <gray>redstone ticks at chunk in <gradient:#064FB4:#02276D><location></gradient><gray>!"
+    cooldown: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>You can use <material> again in <gradient:#064FB4:#02276D><cooldown></gradient><gray>ms."
 
   WorldCleaner:
     countingdown: # Message format -> "second=message"
-      - "15=<gradient:#ff3c00:#ffff00>Warning!</gradient> <gray>In <color:#ff8800><remaining> <gray>seconds the server will be cleared of entities and items!"
-      - "10=<gradient:#ff3c00:#ffff00>Warning!</gradient> <gray>In <color:#ff8800><remaining> <gray>seconds the server will be cleared of entities and items!"
-      - "5=<gradient:#ff3c00:#ffff00>Warning!</gradient> <gray>In <color:#ff8800><remaining> <gray>seconds the server will be cleared of entities and items!"
-      - "4=<gradient:#ff3c00:#ffff00>Warning!</gradient> <gray>In <color:#ff8800><remaining> <gray>seconds the server will be cleared of entities and items!"
-      - "3=<gradient:#ff3c00:#ffff00>Warning!</gradient> <gray>In <color:#ff8800><remaining> <gray>seconds the server will be cleared of entities and items!"
-      - "2=<gradient:#ff3c00:#ffff00>Warning!</gradient> <gray>In <color:#ff8800><remaining> <gray>seconds the server will be cleared of entities and items!"
-      - "1=<gradient:#ff3c00:#ffff00>Warning!</gradient> <gray>In <color:#ff8800><remaining> <gray>second the server will be cleared of entities and items!"
-      - "0=<gray>Successfully removed <color:#ff8800><items>x <gray>items, <color:#ff8800><creatures>x <gray>creatures and <color:#ff8800><projectiles>x <gray>projectiles!"
+      - "15=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>In <color:#064FB4><remaining></color> <gray>seconds the server will be cleared of entities and items!"
+      - "10=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>In <color:#064FB4><remaining></color> <gray>seconds the server will be cleared of entities and items!"
+      - "5=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>In <color:#064FB4><remaining></color> <gray>seconds the server will be cleared of entities and items!"
+      - "4=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>In <color:#064FB4><remaining></color> <gray>seconds the server will be cleared of entities and items!"
+      - "3=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>In <color:#064FB4><remaining></color> <gray>seconds the server will be cleared of entities and items!"
+      - "2=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>In <color:#064FB4><remaining></color> <gray>seconds the server will be cleared of entities and items!"
+      - "1=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>In <color:#064FB4><remaining></color> <gray>second the server will be cleared of entities and items!"
+      - "0=<gradient:#064FB4:#02276D><b>SyncBoost</b></gradient> <dark_gray>» <gray>Successfully removed <color:#064FB4><items>x</color> <gray>items, <color:#064FB4><creatures>x</color> <gray>creatures and <color:#064FB4><projectiles>x</color> <gray>projectiles!"
     items:
-      abyss: #abyss is the place where all deleted items go, and players can get them back by typing the /abyss command
-        close: "<gray>The abyss has been successfully closed!"
-        open: "<gray>The abyss has been successfully opened, recover your items: <yellow>/abyss"
-        empty: "<gray>The abyss is <blue>empty<gray>, wait until it opens again!"
-        closed: "<gray>The abyss is <red>closed<gray>, wait until it opens again!"
-        opened: "<gray>The abyss inventory was successfully <green>opened<gray>!"
+      abyss:
+        close: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>The abyss has been successfully closed!"
+        open: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>The abyss has been successfully opened, recover your items: <color:#064FB4>/abyss</color>"
+        empty: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>The abyss is <color:#064FB4>empty</color><gray>, wait until it opens again!"
+        closed: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>The abyss is <color:#02276D>closed</color><gray>, wait until it opens again!"
+        opened: "<gradient:#064FB4:#02276D>SyncBoost</gradient> <dark_gray>» <gray>The abyss inventory was successfully <color:#064FB4>opened</color><gray>!"
         gui:
-          name: "<white>Abyss! <dark_gray>(<gray>page <page><dark_gray>)"
-          previous: "<dark_gray>← <red><b>PREVIOUS PAGE!</b>"
-          next: "<dark_gray>→ <green><b>NEXT PAGE!</b>"
+          name: "<gradient:#064FB4:#02276D><b>Abyss</b></gradient> <dark_gray>(<gray>page <page><dark_gray>)"
+          previous: "<dark_gray>← <gradient:#02276D:#064FB4><b>PREVIOUS PAGE</b></gradient>"
+          next: "<dark_gray>→ <gradient:#064FB4:#02276D><b>NEXT PAGE</b></gradient>"

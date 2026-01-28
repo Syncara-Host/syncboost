@@ -35,19 +35,19 @@ public class ModulesMenu extends AbstractMenu {
             this.itemClickEvent(slot, () -> {
                 ItemMeta meta = is.getItemMeta();
                 if (meta != null) {
-                    meta.setDisplayName(MessageUtils.fixColors(null, "&6&l⭐ &f&lModule: &e&l" + module.getName()));
+                    meta.setDisplayName(MessageUtils.fixColors(null, "&9&lModule: &b&l" + module.getName()));
                     ArrayList<String> lore = new ArrayList<>();
 
-                    lore.add(MessageUtils.fixColors(null, " &8{*} &7Status: " + (module.isLoaded() ? "&a&lENABLED" : "&c&lDISABLED")));
-                    lore.add(MessageUtils.fixColors(null, " &8{*} &7Customizable values: &e" + module.getSection().getValues(true).values().stream().filter(obj -> !(obj instanceof ConfigurationSection)).count()));
-                    lore.add(MessageUtils.fixColors(null, " &8{*} &7Performance: " + Language.getSerializer().serialize(module.getImpact().getComponent())));
+                    lore.add(MessageUtils.fixColors(null, " §8» §7Status: " + (module.isLoaded() ? "&a&lENABLED" : "&c&lDISABLED")));
+                    lore.add(MessageUtils.fixColors(null, " §8» §7Customizable values: &b" + module.getSection().getValues(true).values().stream().filter(obj -> !(obj instanceof ConfigurationSection)).count()));
+                    lore.add(MessageUtils.fixColors(null, " §8» §7Performance: " + Language.getSerializer().serialize(module.getImpact().getComponent())));
                     lore.add("");
                     lore.add(MessageUtils.fixColors(null, "&b&nClick to modify configuration!"));
                     lore.add("");
-                    lore.add(MessageUtils.fixColors(null, "&eDescription:"));
+                    lore.add(MessageUtils.fixColors(null, "&bDescription:"));
 
                     for (String line : module.getDescription()) {
-                        StringBuilder lineBuilder = new StringBuilder(" &8{*} &7");
+                        StringBuilder lineBuilder = new StringBuilder(" §8» §7");
                         int wordCount = 0;
                         for (String word : line.split("\\s+")) {
                             if (wordCount < 5 && lineBuilder.length() < 40) {

@@ -85,7 +85,8 @@ public class SupportManager extends AbstractManager implements Listener {
                 .max(Comparator.comparingInt(AbstractFork::getPriority))
                 .ifPresent(fork -> {
                     this.fork = fork;
-                    this.getPlugin().getLogger().info(" &8• &rLoaded fork support ~ " + this.fork.getClass().getCanonicalName());
+                    this.getPlugin().getLogger()
+                            .info(" &8• &rLoaded fork support ~ " + this.fork.getClass().getCanonicalName());
                 });
 
         Server server = Bukkit.getServer();
@@ -99,7 +100,7 @@ public class SupportManager extends AbstractManager implements Listener {
                 this.nmsVersion = lastPart;
             } else {
                 this.getPlugin().getLogger().info("   &cPlugin is outdated, update from:");
-                this.getPlugin().getLogger().info("   &chttps://modrinth.com/plugin/lagfixer");
+                this.getPlugin().getLogger().info("   &chttps://github.com/Syncara-Host/syncboost/releases");
                 this.nms = new DeprecatedBukkitSupport(this.getPlugin());
                 return;
             }
@@ -113,8 +114,10 @@ public class SupportManager extends AbstractManager implements Listener {
 
             this.getPlugin().getLogger().info(" &8• &rLoaded nms support ~ " + this.nms.getClass().getCanonicalName());
         } catch (Throwable ex) {
-            this.getPlugin().getLogger().info("   &cOptimal support not found, the plugin will use reflection methods!");
-            this.getPlugin().getLogger().info("   &7Supported versions: &e1.16.5, 1.17.1, 1.18.2, 1.19.4, 1.20 - 1.21.10");
+            this.getPlugin().getLogger()
+                    .info("   &cOptimal support not found, the plugin will use reflection methods!");
+            this.getPlugin().getLogger()
+                    .info("   &7Supported versions: &e1.16.5, 1.17.1, 1.18.2, 1.19.4, 1.20 - 1.21.10");
             this.nms = new DeprecatedBukkitSupport(this.getPlugin());
         }
 
@@ -157,8 +160,8 @@ public class SupportManager extends AbstractManager implements Listener {
             if (this.executor != null) {
                 this.executor.close();
             }
+        } catch (Throwable ignored) {
         }
-        catch (Throwable ignored) {}
     }
 
     @Override
@@ -182,34 +185,40 @@ public class SupportManager extends AbstractManager implements Listener {
                 getServerMethod = craftServer.getClass().getMethod("getServer");
                 Object minecraftServer = getServerMethod.invoke(craftServer);
                 recentTpsField = minecraftServer.getClass().getField("recentTps");
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             ItemMeta tempMeta = Bukkit.getItemFactory().getItemMeta(Material.PLAYER_HEAD);
             if (tempMeta != null) {
                 try {
                     setProfileMethod = tempMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
                     setProfileMethod.setAccessible(true);
-                } catch (NoSuchMethodException ignored) {}
+                } catch (NoSuchMethodException ignored) {
+                }
 
                 try {
                     profileField = tempMeta.getClass().getDeclaredField("profile");
                     profileField.setAccessible(true);
-                } catch (NoSuchFieldException ignored) {}
+                } catch (NoSuchFieldException ignored) {
+                }
             }
         }
 
         @Override
         public double getTps() {
-            if (getServerMethod == null || recentTpsField == null) return -1;
+            if (getServerMethod == null || recentTpsField == null)
+                return -1;
 
             int index = 2;
             try {
                 Object craftServer = Bukkit.getServer();
                 Object minecraftServer = getServerMethod.invoke(craftServer);
-                if (minecraftServer == null) return -1;
+                if (minecraftServer == null)
+                    return -1;
 
                 double[] tps = (double[]) recentTpsField.get(minecraftServer);
-                if (index >= tps.length) index = 0;
+                if (index >= tps.length)
+                    index = 0;
                 return Math.min(20.0, tps[index]);
             } catch (Exception e) {
                 return -1;
@@ -220,7 +229,8 @@ public class SupportManager extends AbstractManager implements Listener {
         public ItemStack createSkull(String base64) {
             ItemStack is = new ItemStack(Material.PLAYER_HEAD);
             ItemMeta meta = is.getItemMeta();
-            if (meta == null) return is;
+            if (meta == null)
+                return is;
 
             try {
                 UUID uuid = UUID.randomUUID();
@@ -232,7 +242,8 @@ public class SupportManager extends AbstractManager implements Listener {
                         setProfileMethod.invoke(meta, profile);
                         is.setItemMeta(meta);
                         return is;
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                 }
 
                 if (profileField != null) {
@@ -240,12 +251,12 @@ public class SupportManager extends AbstractManager implements Listener {
                         profileField.set(meta, profile);
                         is.setItemMeta(meta);
                         return is;
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                 }
 
                 return is;
-            }
-            catch (Exception ignored) {
+            } catch (Exception ignored) {
                 return is;
             }
         }

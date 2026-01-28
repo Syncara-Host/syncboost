@@ -9,20 +9,14 @@ val sonatypeRepo = "https://oss.sonatype.org/content/groups/public/";
 val jitpack = "https://jitpack.io"
 val mojang = "https://libraries.minecraft.net";
 
-version = "1.5.1.9"
-extra["lagfixer_version"] = version
-extra["lagfixer_build"] = "140"
+version = "1.0.0"
+extra["syncboost_version"] = version
+extra["syncboost_build"] = "1"
 
 dependencies {
     implementation(project(":plugin"))
 
-    implementation(project(":nms:v1_16_R3"))
-    implementation(project(":nms:v1_17_R1"))
-    implementation(project(":nms:v1_18_R2"))
-    implementation(project(":nms:v1_19_R3"))
-    implementation(project(":nms:v1_20_R1"))
-    implementation(project(":nms:v1_20_R2"))
-    implementation(project(":nms:v1_20_R3"))
+    // Modern NMS versions (1.20.5+)
     implementation(project(":nms:v1_20_R4"))
     implementation(project(":nms:v1_21_R1"))
     implementation(project(":nms:v1_21_R2"))
@@ -43,17 +37,19 @@ tasks {
     }
 
     shadowJar {
-        archiveBaseName.set("LagFixer")
+        archiveBaseName.set("SyncBoost")
         archiveClassifier.set("")
         archiveVersion.set("")
 
-        relocate("net.kyori", "xyz.lychee.lagfixer.libs.kyori")
-        destinationDirectory.set(file("C:/Users/lajczi/Desktop/testowy/plugins"))  // Nowa lokalizacja
+        relocate("net.kyori", "host.syncara.syncboost.libs.kyori")
+        relocate("org.bstats", "host.syncara.syncboost.libs.bstats")
+        // Output directory - update this path as needed
+        // destinationDirectory.set(file("build/libs"))
     }
 }
 
 allprojects {
-    group = "xyz.lychee";
+    group = "host.syncara";
 
     apply(plugin = "java")
 
@@ -68,8 +64,8 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("org.projectlombok:lombok:1.18.32")
-        annotationProcessor("org.projectlombok:lombok:1.18.32")
+        compileOnly("org.projectlombok:lombok:1.18.40")
+        annotationProcessor("org.projectlombok:lombok:1.18.40")
     }
 
     tasks {
@@ -81,6 +77,6 @@ allprojects {
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }

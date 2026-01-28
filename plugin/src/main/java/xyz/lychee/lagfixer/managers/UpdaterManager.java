@@ -36,6 +36,7 @@ public class UpdaterManager extends AbstractManager implements Listener {
     private String currentVersion = "";
     private BukkitTask task;
     private boolean updater;
+    private boolean notify;
 
     public UpdaterManager(LagFixer plugin) {
         super(plugin);
@@ -44,28 +45,33 @@ public class UpdaterManager extends AbstractManager implements Listener {
 
     @EventHandler
     public void onClick(PlayerJoinEvent e) {
-        if (e.getPlayer().isOp() && this.compared < 0 && this.updater) {
+        if (e.getPlayer().isOp() && this.compared < 0 && this.updater && this.notify) {
             SupportManager.getInstance().getFork().runLater(true, () -> {
                 MessageUtils.sendMessage(true, e.getPlayer(),
-                        "\nPlugin needs update, latest version: &f" + this.latestVersion +
-                                "\n &8- &ehttps://modrinth.com/plugin/lagfixer/version/" + this.latestVersion +
-                                "\n"
-                );
+                        "\nSyncBoost needs update, latest version: &f" + this.latestVersion +
+                                "\n &8- &ehttps://github.com/Syncara-Host/syncboost/releases" +
+                                "\n");
             }, 3, TimeUnit.SECONDS);
         }
     }
 
     @Override
     public void load() throws IOException {
-        this.updater = this.getPlugin().getConfig().getBoolean("main.updater");
+        this.updater = this.getPlugin().getConfig().getBoolean("main.updater.enabled");
+        this.notify = this.getPlugin().getConfig().getBoolean("main.updater.notify");
+
+        if (!this.updater) {
+            return;
+        }
 
         this.task = SupportManager.getInstance().getFork().runTimer(true, () -> {
             try {
                 this.currentVersion = this.getPlugin().getDescription().getVersion().split(" ")[0].trim();
 
-                URL url = new URL("https://api.modrinth.com/v2/project/lagfixer/version");
+                URL url = new URL("https://api.modrinth.com/v2/project/syncboost/version");
                 InputStreamReader reader = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
-                Type listType = new TypeToken<ArrayList<ModrinthVersion>>() {}.getType();
+                Type listType = new TypeToken<ArrayList<ModrinthVersion>>() {
+                }.getType();
                 List<ModrinthVersion> versions = gson.fromJson(reader, listType);
                 versions.removeIf(version -> version.getVersion_number().matches(".*[^0-9.].*"));
 
@@ -84,22 +90,19 @@ public class UpdaterManager extends AbstractManager implements Listener {
                 this.compared = this.comparator.compare(this.currentVersion, this.latestVersion);
 
                 if ((this.difference >= 0 && this.difference < 2) || this.behind > 5) {
-                    this.updater = true;
+                    // Logic retained but does not override enabled state
                 }
-            } catch (IOException ignored) {}
+            } catch (IOException ignored) {
+            }
 
-            if (this.updater && this.compared < 0) {
+            if (this.updater && this.notify && this.compared < 0) {
                 this.getPlugin().getLogger().info(
-                        String.format("\n&8∘₊✧────────────────────────────────✧₊∘" +
-                                        "\n&c&lLagFixer needs an update!" +
-                                        "\n&fVersion: &e&n%s&r -> &e&n%s&r" +
-                                        "\n&ahttps://modrinth.com/plugin/lagfixer/version/%s" +
-                                        "\n" +
-                                        "\n&6⚠ &7Updating this plugin is crucial! &6⚠" +
-                                        "\n&8∘₊✧────────────────────────────────✧₊∘",
-                                this.currentVersion, this.latestVersion, this.latestVersion
-                        )
-                );
+                        String.format("\n&9╔═══════════════════════════════════════════╗" +
+                                "\n&9║  &c&lSyncBoost needs an update!              &9║" +
+                                "\n&9║  &fVersion: &e%s &7-> &a%s         &9║" +
+                                "\n&9║  &7https://modrinth.com/plugin/syncboost    &9║" +
+                                "\n&9╚═══════════════════════════════════════════╝",
+                                this.currentVersion, this.latestVersion));
             }
         }, 1L, 30L, TimeUnit.MINUTES);
         this.getPlugin().getServer().getPluginManager().registerEvents(this, this.getPlugin());
@@ -222,4 +225,3 @@ public class UpdaterManager extends AbstractManager implements Listener {
         public String dependency_type;
     }
 }
-

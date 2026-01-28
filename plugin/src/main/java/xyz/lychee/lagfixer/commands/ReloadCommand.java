@@ -24,7 +24,7 @@ public class ReloadCommand extends CommandManager.Subcommand {
     @Override
     public boolean execute(@NotNull org.bukkit.command.CommandSender sender, @NotNull String[] args) {
         if (this.reload) {
-            return MessageUtils.sendMessage(true, sender, "&7Reload is running, wait for results in console!");
+            return MessageUtils.sendMessage(true, sender, "&bReload is running, wait for results in console!");
         }
 
         this.reload = true;
@@ -51,25 +51,25 @@ public class ReloadCommand extends CommandManager.Subcommand {
                             m.setLoaded(true);
                         }
                         m.loadAllConfig();
-                        plugin.getLogger().info("&rConfiguration for &e" + m.getName() + " &rsuccessfully reloaded!");
+                        plugin.getLogger().info("&rConfiguration for &b" + m.getName() + " &rsuccessfully reloaded!");
                     } else if (m.isLoaded()) {
                         m.disable();
                         m.setLoaded(false);
-                        plugin.getLogger().info("&rSuccessfully disabled module &e" + m.getName() + "&r!");
+                        plugin.getLogger().info("&rSuccessfully disabled module &b" + m.getName() + "&r!");
                     }
                     m.getMenu().updateAll();
                 } catch (Exception ex) {
                     plugin.printError(ex);
-                    plugin.getLogger().info("&rError reloading configuration for &c" + m.getName() + "&r!");
+                    plugin.getLogger().info("&c&lERROR §8» &7Error reloading configuration for &b" + m.getName() + "&r!");
                 }
             });
 
-            MessageUtils.sendMessage(true, sender, "&7Reloaded modules configurations in &f" + t.stop().getExecutingTime() + "&7ms." +
+            MessageUtils.sendMessage(true, sender, "&9&lSyncBoost &8» &7Reloaded modules configurations in &b" + t.stop().getExecutingTime() + "&7ms." +
                     "\n " +
                     "\n &7Working methods to apply all changes:" +
-                    "\n  &8{*} &7Server restart (&frecommended&7)" +
-                    "\n  &8{*} &7All plugins reload, command: &f/reload confirm" +
-                    "\n  &8{*} &7Plugman reload, command: &f/plugman reload LagFixer");
+                    "\n  §8» &7Server restart (&brecommended&7)" +
+                    "\n  §8» &7All plugins reload, command: &b/reload confirm" +
+                    "\n  §8» &7Plugman reload, command: &b/plugman reload SyncBoost");
             this.reload = false;
         });
         thread.setName("LagFixer Reload");

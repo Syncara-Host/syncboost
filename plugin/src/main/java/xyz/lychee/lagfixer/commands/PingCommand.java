@@ -25,10 +25,10 @@ public class PingCommand extends CommandManager.Subcommand {
         if (args.length > 0) {
             Player player = Bukkit.getPlayer(args[0]);
             if (player == null) {
-                return MessageUtils.sendMessage(true, sender, "&7Player not found on the server");
+                return MessageUtils.sendMessage(true, sender, "&c&lERROR §8» &7Player not found.");
             }
 
-            return MessageUtils.sendMessage(true, sender, "&7" + player.getDisplayName() + "'s ping is &e" + nms.getPlayerPing(player) + "&7ms");
+            return MessageUtils.sendMessage(true, sender, "&9&lSyncBoost §8» &7" + player.getDisplayName() + "'s ping: &b" + nms.getPlayerPing(player) + "&7ms");
         }
 
         double averagePing = Bukkit.getOnlinePlayers()
@@ -36,6 +36,6 @@ public class PingCommand extends CommandManager.Subcommand {
                 .mapToInt(nms::getPlayerPing)
                 .average()
                 .orElse(-1D);
-        return MessageUtils.sendMessage(true, sender, "&7Average players ping: &e" + averagePing);
+        return MessageUtils.sendMessage(true, sender, "&9&lSyncBoost §8» &7Average ping: &b" + averagePing);
     }
 }

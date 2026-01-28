@@ -1,37 +1,41 @@
-#░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-#░██╗░░░░░░█████╗░░██████╗░░░███████╗██╗██╗░░██╗███████╗██████╗░░
-#░██║░░░░░██╔══██╗██╔════╝░░░██╔════╝██║╚██╗██╔╝██╔════╝██╔══██╗░
-#░██║░░░░░███████║██║░░██╗░░░█████╗░░██║░╚███╔╝░█████╗░░██████╔╝░
-#░██║░░░░░██╔══██║██║░░╚██╗░░██╔══╝░░██║░██╔██╗░██╔══╝░░██╔══██╗░
-#░███████╗██║░░██║╚██████╔╝░░██║░░░░░██║██╔╝╚██╗███████╗██║░░██║░
-#░╚══════╝╚═╝░░╚═╝░╚═════╝░░░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░
-#░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+# ╔═══════════════════════════════════════════════════════════════════╗
+# ║  SyncBoost - Server Performance Optimizer by Syncara Host         ║
+# ║  GitHub: https://github.com/Syncara-Host/syncboost                ║
+# ╚═══════════════════════════════════════════════════════════════════╝
 
 # Some of the options below require a server restart or plugin reload.
 main:
-  prefix: "&8[&e&l⚡&8] "
-  # Displays LagFixer version info on hover.
+  # Prefix using SyncBoost color scheme: #FFFFFF #064FB4 #02276D #000216
+  # Elegant gradient brackets without emoji
+  prefix: "<gradient:#064FB4:#02276D>[SyncBoost]</gradient> "
+  # Displays SyncBoost version info on hover.
   prefix_hover: true
   # Multithread synchronization has not been thoroughly tested.
   threads: 1
   # Update interval (in seconds) for TPS, MSPT, CPU, and other metrics.
   monitor_interval: 5
-  # Automatically reports LagFixer errors and Spark profiler to our support team.
+  # Enable local error logging. Report issues at: https://github.com/Syncara-Host/syncboost/issues
   errors_reporter: true
 
-  updater: true
+  updater:
+    # Check for updates automatically?
+    enabled: true
+    # Notify regarding updates in console and to OPs on join?
+    notify: true
+
   # Displays warnings for legacy methods without support.
   warnings: true
-  # Optimized metrics available at https://bstats.org/plugin/bukkit/LagFixer/19292.
+  # Optimized metrics available at https://bstats.org/plugin/bukkit/SyncBoost/29119.
   bStats: true
 
+  # Command configuration - Main command is /syncboost, aliases below are additional ways to run it
   command:
-    permission: "lagfixer.command"
+    # Permission required to use the command
+    permission: "syncboost.command"
+    # Additional command aliases (these will also work: /syncboost, /sb, etc.)
     aliases:
-      - lf
-      - antilag
-      - lag
+      - sb
 
   map:
     enabled: true
-    interval: 3 # Update interval (in seconds) for the map handler (/lagfixer map). Recommended to be at least twice the monitor_interval.
+    interval: 3 # Update interval (in seconds) for the map handler (/syncboost map). Recommended to be at least twice the monitor_interval.

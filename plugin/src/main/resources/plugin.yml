@@ -1,9 +1,9 @@
-name: LagFixer
-version: ${lagfixer_version} [build ${lagfixer_build}]
+name: SyncBoost
+version: ${syncboost_version} [build ${syncboost_build}]
 main: xyz.lychee.lagfixer.LagFixer
-author: lychee
-api-version: 1.13
-website: https://modrinth.com/plugin/lagfixer
+author: Syncara-Host
+api-version: 1.20
+website: https://github.com/Syncara-Host/syncboost
 softdepend: [
   PlaceholderAPI,
   spark,

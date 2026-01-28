@@ -40,11 +40,14 @@ dependencies {
 
     implementation("net.kyori:adventure-platform-bukkit:4.4.1")
     implementation("net.kyori:adventure-text-minimessage:4.25.0")
+    
+    // bStats metrics
+    implementation("org.bstats:bstats-bukkit:3.1.0")
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
     withSourcesJar()
 }
 

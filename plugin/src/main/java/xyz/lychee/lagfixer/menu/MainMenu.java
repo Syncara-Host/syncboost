@@ -22,10 +22,10 @@ import java.util.Collections;
 
 public class MainMenu extends AbstractMenu {
 
-    private final ItemBuilder i1 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWMyZmYyNDRkZmM5ZGQzYTJjZWY2MzExMmU3NTAyZGM2MzY3YjBkMDIxMzI5NTAzNDdiMmI0NzlhNzIzNjZkZCJ9fX0=", "&f&lConfiguration:");
-    private final ItemBuilder i2 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWNjNzg5ZjIzMDc5NGY5MGUzM2M0ZjlhZDAwNjk0YmMyYTJmZjVlOGI5YjM3NWRjMzUzMjQwMWIyODFmM2U1OCJ9fX0=", "&f&lServer informations:");
-    private final ItemBuilder i3 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI4OWQ1YjE3ODYyNmVhMjNkMGIwYzNkMmRmNWMwODVlODM3NTA1NmJmNjg1YjVlZDViYjQ3N2ZlODQ3MmQ5NCJ9fX0=", "&f&lWorlds informations:");
-    private final ItemBuilder i4 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ5ZjE4YzlkODVmOTJmNzJmODY0ZDY3YzEzNjdlOWE0NWRjMTBmMzcxNTQ5YzQ2YTRkNGRkOWU0ZjEzZmY0In19fQ==", "&f&lServer fork optimizer:");
+    private final ItemBuilder i1 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWMyZmYyNDRkZmM5ZGQzYTJjZWY2MzExMmU3NTAyZGM2MzY3YjBkMDIxMzI5NTAzNDdiMmI0NzlhNzIzNjZkZCJ9fX0=", "&9&lConfiguration");
+    private final ItemBuilder i2 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWNjNzg5ZjIzMDc5NGY5MGUzM2M0ZjlhZDAwNjk0YmMyYTJmZjVlOGI5YjM3NWRjMzUzMjQwMWIyODFmM2U1OCJ9fX0=", "&9&lServer Information");
+    private final ItemBuilder i3 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI4OWQ1YjE3ODYyNmVhMjNkMGIwYzNkMmRmNWMwODVlODM3NTA1NmJmNjg1YjVlZDViYjQ3N2ZlODQ3MmQ5NCJ9fX0=", "&9&lWorld Information");
+    private final ItemBuilder i4 = this.skull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ5ZjE4YzlkODVmOTJmNzJmODY0ZDY3YzEzNjdlOWE0NWRjMTBmMzcxNTQ5YzQ2YTRkNGRkOWU0ZjEzZmY0In19fQ==", "&9&lFork Optimizer");
 
     public MainMenu(LagFixer plugin, int size, String title) {
         super(plugin, size, title, 1, true);
@@ -42,7 +42,7 @@ public class MainMenu extends AbstractMenu {
     }
 
     private ItemBuilder skull(String textureHash, String name) {
-        return ItemBuilder.createSkull(textureHash).setName(name).setLore(" &8{*} &7Loading lore...");
+        return ItemBuilder.createSkull(textureHash).setName(name).setLore(" §8» §7Loading lore...");
     }
 
     @Override
@@ -51,21 +51,21 @@ public class MainMenu extends AbstractMenu {
         ModuleManager moduleManager = ModuleManager.getInstance();
 
         i1.setLore(
-                " &8{*} &7Loaded modules: &e" + moduleManager.getModules().values().stream().filter(AbstractModule::isLoaded).count() + "&8/&e" + moduleManager.getModules().size(),
-                " &8{*} &7Version: &e" + this.getPlugin().getDescription().getVersion(),
+                " §8» §7Modules: §b" + moduleManager.getModules().values().stream().filter(AbstractModule::isLoaded).count() + "§8/§b" + moduleManager.getModules().size(),
+                " §8» §7Version: §b" + this.getPlugin().getDescription().getVersion(),
                 "",
-                "&eClick to modify configuration!"
+                "§bClick to modify configuration!"
         );
 
         AbstractMonitor monitor = support.getMonitor();
         i2.setLore(
-                " &8{*} &7Tps: &e" + monitor.getTps(),
-                " &8{*} &7Mspt: &e" + monitor.getMspt(),
-                " &8{*} &7Memory: &e" + monitor.getRamUsed() + "&8/&e" + monitor.getRamTotal() + "&8/&e" + monitor.getRamMax() + " MB",
-                " &8{*} &7Cpu process: &e" + monitor.getCpuProcess() + "&f%",
-                " &8{*} &7Cpu system: &e" + monitor.getCpuSystem() + "&f%",
+                " §8» §7TPS: §b" + monitor.getTps(),
+                " §8» §7MSPT: §b" + monitor.getMspt(),
+                " §8» §7Memory: §b" + monitor.getRamUsed() + "§8/§b" + monitor.getRamTotal() + "§8/§b" + monitor.getRamMax() + " MB",
+                " §8» §7CPU Process: §b" + monitor.getCpuProcess() + "§f%",
+                " §8» §7CPU System: §b" + monitor.getCpuSystem() + "§f%",
                 "",
-                "&eClick to open hardware menu!"
+                "§bClick to open hardware menu!"
         );
 
         int chunks = 0, tiles = 0;
@@ -79,19 +79,19 @@ public class MainMenu extends AbstractMenu {
         }
 
         i3.setLore(
-                " &8{*} &7Chunks: &e" + chunks,
-                " &8{*} &7Entities: &e" + support.getEntities(),
-                " &8{*} &7Creatures: &e" + support.getCreatures(),
-                " &8{*} &7Items: &e" + support.getItems(),
-                " &8{*} &7Projectiles: &e" + support.getProjectiles(),
-                " &8{*} &7Vehicles: &e" + support.getVehicles(),
-                " &8{*} &7Tile entities: &e" + tiles,
-                " &8{*} &7Players: &e" + Bukkit.getOnlinePlayers().size() + "&8/&e" + Bukkit.getMaxPlayers(),
+                " §8» §7Chunks: §b" + chunks,
+                " §8» §7Entities: §b" + support.getEntities(),
+                " §8» §7Creatures: §b" + support.getCreatures(),
+                " §8» §7Items: §b" + support.getItems(),
+                " §8» §7Projectiles: §b" + support.getProjectiles(),
+                " §8» §7Vehicles: §b" + support.getVehicles(),
+                " §8» §7Tile Entities: §b" + tiles,
+                " §8» §7Players: §b" + Bukkit.getOnlinePlayers().size() + "§8/§b" + Bukkit.getMaxPlayers(),
                 "",
-                "&eClick to open cleaner menu!"
+                "§bClick to open cleaner menu!"
         );
 
-        i4.setLore(Collections.singletonList("&eClick to open configurator menu!"));
+        i4.setLore(Collections.singletonList("§bClick to open configurator menu!"));
         this.fillButtons();
     }
 

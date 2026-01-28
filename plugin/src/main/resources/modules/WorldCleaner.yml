@@ -12,10 +12,10 @@ WorldCleaner:
       actionbar: false # Temporary message above the hotbar
       message: true
 
-    # Command: /lagfixer clear items
+    # Command: /syncboost clear items
     items:
       enabled: true
-      disable_item_despawn: false # If true, LagFixer will handle item despawning instead of Bukkit.
+      disable_item_despawn: false # If true, SyncBoost will handle item despawning instead of Bukkit.
       time_lived: 10000 # Minimum time (in ms) an item must exist before removal (-1 to disable).
       blacklist: # Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
         - BEACON
@@ -29,7 +29,7 @@ WorldCleaner:
           - BEDROCK
           - BEACON
 
-    # Command: /lagfixer clear creatures
+    # Command: /syncboost clear creatures
     creatures:
       enabled: true
       named: false        # If "true" removes named creatures
@@ -54,7 +54,7 @@ WorldCleaner:
         - PUFFERFISH
         - TROPICAL_FISH
 
-    # Command: /lagfixer clear projectiles (e.g., arrows, snowballs)
+    # Command: /syncboost clear projectiles (e.g., arrows, snowballs)
     projectiles:
       enabled: true
       list_mode: true # If "true" only listed entities will be removed; if false, all unlisted entities will be removed

@@ -36,7 +36,7 @@ public class ConsoleFilterModule extends AbstractModule {
         public Filter.Result filter(LogEvent event) {
             if (!ConsoleFilterModule.this.filtering
                     || event.getLoggerName().equals("ErrorFilter")
-                    || event.getLoggerName().equals("LagFixer")) {
+                    || event.getLoggerName().equals("SyncBoost")) {
                 return Filter.Result.NEUTRAL;
             }
 

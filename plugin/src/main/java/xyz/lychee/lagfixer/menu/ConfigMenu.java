@@ -27,7 +27,7 @@ public class ConfigMenu extends AbstractMenu {
     private final File configFile;
 
     public ConfigMenu(LagFixer plugin, ConfigurationSection defSection, int size, AbstractModule module) {
-        super(plugin, size, MessageUtils.fixColors(null, "&8[&e&l⚡&8] &fConfig! &8| &eLagFixer"), -1, true);
+        super(plugin, size, MessageUtils.fixColors(null, "&8[&9&lSyncBoost&8] &fConfig"), -1, true);
         this.module = module;
         this.configFile = new File(this.getPlugin().getDataFolder(), "modules/" + module.getName() + ".yml");
 
@@ -53,10 +53,10 @@ public class ConfigMenu extends AbstractMenu {
 
                 if (currentValue instanceof Collection) {
                     for (Object obj : (Collection<?>) currentValue) {
-                        lore.add(MessageUtils.fixColors(null, " &8{*} &e" + obj));
+                        lore.add(MessageUtils.fixColors(null, " §8» §b" + obj));
                     }
                 } else {
-                    lore.add(MessageUtils.fixColors(null, " &8{*} &e" + currentValue));
+                    lore.add(MessageUtils.fixColors(null, " §8» §b" + currentValue));
                 }
 
                 lore.add("");
@@ -67,7 +67,7 @@ public class ConfigMenu extends AbstractMenu {
 
                 ItemMeta meta = item.getItemMeta();
                 if (meta != null) {
-                    meta.setDisplayName(MessageUtils.fixColors(null, "&f&lKey: &e&l" + key));
+                    meta.setDisplayName(MessageUtils.fixColors(null, "&9&lKey: &b&l" + key));
                     meta.setLore(lore);
                     item.setItemMeta(meta);
                 }
@@ -78,7 +78,7 @@ public class ConfigMenu extends AbstractMenu {
                 if (e.isRightClick()) {
                     Object defaultValue = change.getModule().getSection().getDefaultSection().get(change.getKey());
                     MessageUtils.sendMessage(true, human,
-                            "&fDefault value of &e" + change.getKey() + " &fis:\n &8{*} &e" + defaultValue);
+                            "&7Default value of &b" + change.getKey() + " &7is:\n §8» §b" + defaultValue);
                 } else {
                     human.closeInventory();
                     playerChanges.put(human.getUniqueId(), change);
@@ -115,7 +115,7 @@ public class ConfigMenu extends AbstractMenu {
 
             Object newValue = change.getModule().getSection().get(change.getKey());
             MessageUtils.sendMessage(true, player,
-                    "&fConfiguration saved!\n &8{*} &e" + change.getValue() + " &8→ &e" + newValue);
+                    "&aConfiguration saved!\n §8» §b" + change.getValue() + " §8→ §b" + newValue);
 
             change.getModule().getMenu().updateAll();
             openModuleMenu(player, change.getModule());

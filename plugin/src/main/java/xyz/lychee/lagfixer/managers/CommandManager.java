@@ -66,23 +66,34 @@ public class CommandManager extends AbstractManager implements Listener, TabExec
             return false;
         }
 
+        if (args.length == 0) {
+            Subcommand menuCmd = this.subcommands.get("menu");
+            if (menuCmd != null && sender instanceof org.bukkit.entity.Player) {
+                menuCmd.execute(sender, new String[0]);
+                return true;
+            }
+        }
+
         if (args.length > 0) {
             Subcommand cmd = this.subcommandsWithAliases.get(args[0].toLowerCase());
             if (cmd != null) {
                 String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
                 cmd.execute(sender, subArgs);
-                return false;
+                return true;
             }
         }
 
-        StringBuilder help = new StringBuilder("Subcommands list:\n");
-        for (Subcommand subCommand : this.subcommands.values()) {
-            help.append("&8{*} &f/lagfixer &e")
-                    .append(subCommand.getName())
-                    .append(" &8- &7")
-                    .append(subCommand.getDescription())
-                    .append("\n");
-        }
+        StringBuilder help = new StringBuilder("&9&lSyncBoost &fCommands:\n");
+        help.append(" §8» §f/syncboost help &8- &7Show this help message\n");
+        this.subcommands.values().stream()
+            .sorted(java.util.Comparator.comparing(Subcommand::getName))
+            .forEach(subCommand -> {
+                help.append(" §8» §f/syncboost §b")
+                        .append(subCommand.getName())
+                        .append(" §8- §7")
+                        .append(subCommand.getDescription())
+                        .append("\n");
+            });
         return MessageUtils.sendMessage(true, sender, help.toString());
     }
 
@@ -122,7 +133,7 @@ public class CommandManager extends AbstractManager implements Listener, TabExec
         }
 
         this.permission = this.getPlugin().getConfig().getString("main.command.permission");
-        SupportManager.getInstance().getFork().registerCommand(this.getPlugin(), "lagfixer", this.getPlugin().getConfig().getStringList("main.command.aliases"), this);
+        SupportManager.getInstance().getFork().registerCommand(this.getPlugin(), "syncboost", this.getPlugin().getConfig().getStringList("main.command.aliases"), this);
         this.getPlugin().getServer().getPluginManager().registerEvents(this, this.getPlugin());
     }
 

@@ -11,7 +11,7 @@ RedstoneLimiter:
       # Total pushed blocks.
       piston: 50
 
-    # Should LagFixer break blocks upon detection?
+    # Should SyncBoost break blocks upon detection?
     break_block:
       redstone: false
       piston: false
