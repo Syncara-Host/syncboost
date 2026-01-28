@@ -5,6 +5,8 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -171,37 +173,22 @@ public class WorldCleanerModule extends AbstractModule implements Listener, Comm
         this.task = SupportManager.getInstance().getFork().runTimer(false, () -> {
             if (--this.second <= 0) {
                 HookManager.StackerContainer stacker = HookManager.getInstance().getStacker();
+                boolean isFolia = SupportManager.getInstance().getFork().isFolia();
 
-                int creatures = 0, items = 0, projectiles = 0;
-
-                for (World world : this.getAllowedWorlds()) {
-                    for (Entity ent : world.getEntities()) {
-                        if (ent instanceof LivingEntity) {
-                            if (this.creatures_enabled && this.clearCreature((LivingEntity) ent)) {
-                                if (this.creatures_dropitems) {
-                                    ((LivingEntity) ent).damage(Double.MAX_VALUE);
-                                }
-                                ent.remove();
-                                creatures++;
-                            }
-                        } else if (ent instanceof Item) {
-                            if (this.items_enabled && this.clearItem((Item) ent)) {
-                                if (this.items_abyss_enabled && !this.items_abyss_blacklist.contains(((Item) ent).getItemStack().getType())) {
-                                    Item item = (Item) ent;
-                                    if (stacker != null) {
-                                        stacker.addItemsToList(item, this.items);
-                                    } else {
-                                        this.items.add(item.getItemStack().clone());
-                                    }
-                                }
-                                ent.remove();
-                                items++;
-                            }
-                        } else if (ent instanceof Projectile) {
-                            if (this.projectiles_enabled && this.clearProjectile((Projectile) ent)) {
-                                ent.remove();
-                                projectiles++;
-                            }
+                if (isFolia) {
+                    // On Folia, dispatch entity processing to each chunk's region thread
+                    for (World world : this.getAllowedWorlds()) {
+                        for (Chunk chunk : world.getLoadedChunks()) {
+                            Location loc = new Location(world, chunk.getX() << 4, 0, chunk.getZ() << 4);
+                            SupportManager.getInstance().getFork().runNow(false, loc, () -> 
+                                this.processChunkEntities(chunk, stacker));
+                        }
+                    }
+                } else {
+                    // On non-Folia servers, process entities directly
+                    for (World world : this.getAllowedWorlds()) {
+                        for (Entity ent : world.getEntities()) {
+                            this.processEntity(ent, stacker);
                         }
                     }
                 }
@@ -210,9 +197,9 @@ public class WorldCleanerModule extends AbstractModule implements Listener, Comm
                     this.sendAlert(
                             Language.createComponent(this.messages.get(this.second), true,
                                     Placeholder.unparsed("remaining", Integer.toString(this.second)),
-                                    Placeholder.unparsed("items", Integer.toString(items)),
-                                    Placeholder.unparsed("creatures", Integer.toString(creatures)),
-                                    Placeholder.unparsed("projectiles", Integer.toString(projectiles))
+                                    Placeholder.unparsed("items", "0"),
+                                    Placeholder.unparsed("creatures", "0"),
+                                    Placeholder.unparsed("projectiles", "0")
                             )
                     );
                 }
@@ -271,6 +258,45 @@ public class WorldCleanerModule extends AbstractModule implements Listener, Comm
             }
         }, 1L, 1L, TimeUnit.SECONDS);
         this.getPlugin().getServer().getPluginManager().registerEvents(this, this.getPlugin());
+    }
+
+    /**
+     * Process all entities in a chunk - called on the chunk's region thread on Folia
+     */
+    private void processChunkEntities(Chunk chunk, HookManager.StackerContainer stacker) {
+        for (Entity ent : chunk.getEntities()) {
+            this.processEntity(ent, stacker);
+        }
+    }
+
+    /**
+     * Process a single entity for cleanup
+     */
+    private void processEntity(Entity ent, HookManager.StackerContainer stacker) {
+        if (ent instanceof LivingEntity) {
+            if (this.creatures_enabled && this.clearCreature((LivingEntity) ent)) {
+                if (this.creatures_dropitems) {
+                    ((LivingEntity) ent).damage(Double.MAX_VALUE);
+                }
+                ent.remove();
+            }
+        } else if (ent instanceof Item) {
+            if (this.items_enabled && this.clearItem((Item) ent)) {
+                if (this.items_abyss_enabled && !this.items_abyss_blacklist.contains(((Item) ent).getItemStack().getType())) {
+                    Item item = (Item) ent;
+                    if (stacker != null) {
+                        stacker.addItemsToList(item, this.items);
+                    } else {
+                        this.items.add(item.getItemStack().clone());
+                    }
+                }
+                ent.remove();
+            }
+        } else if (ent instanceof Projectile) {
+            if (this.projectiles_enabled && this.clearProjectile((Projectile) ent)) {
+                ent.remove();
+            }
+        }
     }
 
     public void sendAlert(Component text) {
