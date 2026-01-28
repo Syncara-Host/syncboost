@@ -39,3 +39,5 @@ main:
   map:
     enabled: true
     interval: 3 # Update interval (in seconds) for the map handler (/syncboost map). Recommended to be at least twice the monitor_interval.
+
+version: 1.2.0 # Do not modify this value.

@@ -1,5 +1,5 @@
 name: SyncBoost
-version: ${syncboost_version} [build ${syncboost_build}]
+version: ${syncboost_version}+${syncboost_build}
 main: xyz.lychee.lagfixer.LagFixer
 author: Syncara-Host
 api-version: 1.20
