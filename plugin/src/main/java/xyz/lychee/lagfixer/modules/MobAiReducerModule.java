@@ -77,7 +77,9 @@ public class MobAiReducerModule extends AbstractModule implements Listener {
         ) return;
 
         if (this.async) {
-            SupportManager.getInstance().getExecutor().execute(() -> this.mobAiReducer.optimize(e.getEntity(), false));
+            // Use region scheduler for Folia compatibility - entity state must be on region thread
+            SupportManager.getInstance().getFork().runNow(false, e.getEntity().getLocation(), 
+                    () -> this.mobAiReducer.optimize(e.getEntity(), false));
         } else {
             this.mobAiReducer.optimize(e.getEntity(), false);
         }
@@ -187,6 +189,19 @@ public class MobAiReducerModule extends AbstractModule implements Listener {
         public abstract void optimize(Entity entity, boolean init);
 
         public abstract void purge();
+
+        /**
+         * Schedule entity optimization on region thread for Folia compatibility.
+         * NMS subclasses should call this instead of using executor directly.
+         */
+        protected void scheduleOptimize(Entity entity) {
+            if (this.module.isAsync()) {
+                SupportManager.getInstance().getFork().runNow(false, entity.getLocation(),
+                        () -> this.optimize(entity, false));
+            } else {
+                this.optimize(entity, false);
+            }
+        }
     }
 }
 

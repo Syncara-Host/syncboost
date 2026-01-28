@@ -34,6 +34,11 @@ public class PaperSupport extends AbstractFork {
     }
 
     @Override
+    public boolean isFolia() {
+        return true;
+    }
+
+    @Override
     public int getPriority() {
         return 1;
     }

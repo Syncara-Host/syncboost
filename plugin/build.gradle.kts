@@ -46,8 +46,10 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    // Use Java 17 for MC 1.17+ compatibility  
+    // v1_16_R3 is excluded from main build as it requires Java 8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     withSourcesJar()
 }
 

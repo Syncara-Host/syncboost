@@ -20,7 +20,7 @@ import xyz.lychee.lagfixer.managers.SupportManager;
 import xyz.lychee.lagfixer.objects.AbstractModule;
 import xyz.lychee.lagfixer.utils.ReflectionUtils;
 
-import java.util.EnumSet;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
@@ -28,6 +28,7 @@ public class EntityLimiterModule extends AbstractModule implements Listener {
     private final EnumSet<CreatureSpawnEvent.SpawnReason> reasons = EnumSet.noneOf(CreatureSpawnEvent.SpawnReason.class);
     private final EnumSet<EntityType> whitelist = EnumSet.noneOf(EntityType.class);
     private BukkitTask overflow_task;
+    private BukkitTask smartcap_task;
 
     private boolean ignore_models;
     private int creatures;
@@ -43,6 +44,16 @@ public class EntityLimiterModule extends AbstractModule implements Listener {
     private boolean overflow_vehicles;
     private boolean overflow_projectiles;
     private boolean overflow_named;
+
+    // Smart Mob Cap fields
+    private boolean smartcap_enabled;
+    private int smartcap_interval;
+    private final TreeMap<Double, Double> smartcap_tps_multipliers = new TreeMap<>(Collections.reverseOrder());
+    private final EnumSet<EntityType> smartcap_priority_high = EnumSet.noneOf(EntityType.class);
+    private final EnumSet<EntityType> smartcap_priority_low = EnumSet.noneOf(EntityType.class);
+    private boolean smartcap_protect_named;
+    private boolean smartcap_protect_tamed;
+    private boolean smartcap_protect_leashed;
 
     public EntityLimiterModule(LagFixer plugin, ModuleManager manager) {
         super(plugin, manager, AbstractModule.Impact.HIGH, "EntityLimiter",
@@ -157,6 +168,92 @@ public class EntityLimiterModule extends AbstractModule implements Listener {
                 });
             }, this.overflow_interval, this.overflow_interval, TimeUnit.SECONDS);
         }
+
+        // Smart Mob Cap task
+        if (this.smartcap_enabled && this.creatures > 0) {
+            this.smartcap_task = SupportManager.getInstance().getFork().runTimer(false, this::runSmartCap, 
+                    this.smartcap_interval, this.smartcap_interval, TimeUnit.SECONDS);
+        }
+    }
+
+    private void runSmartCap() {
+        double tps = SupportManager.getInstance().getMonitor().getTps();
+        double multiplier = getSmartCapMultiplier(tps);
+        int dynamicLimit = (int) (this.creatures * multiplier);
+        
+        if (dynamicLimit <= 0) return;
+
+        boolean isFolia = SupportManager.getInstance().getFork().isFolia();
+
+        this.getAllowedWorlds().forEach(world -> {
+            for (Chunk chunk : world.getLoadedChunks()) {
+                if (isFolia) {
+                    Location loc = new Location(world, chunk.getX() << 4, 0, chunk.getZ() << 4);
+                    SupportManager.getInstance().getFork().runNow(false, loc, () -> this.processChunk(chunk, dynamicLimit));
+                } else {
+                    this.processChunk(chunk, dynamicLimit);
+                }
+            }
+        });
+    }
+
+    private void processChunk(Chunk chunk, int dynamicLimit) {
+        Entity[] entities = chunk.getEntities();
+        if (entities.length == 0) return;
+
+        // Separate entities by priority
+        List<Entity> lowPriority = new ArrayList<>();
+        List<Entity> normalPriority = new ArrayList<>();
+        int mobCount = 0;
+
+        for (Entity entity : entities) {
+            if (!(entity instanceof Mob)) continue;
+            if (isProtected(entity)) continue;
+            if (this.whitelist.contains(entity.getType())) continue;
+            if (this.smartcap_priority_high.contains(entity.getType())) continue;
+
+            mobCount++;
+            if (this.smartcap_priority_low.contains(entity.getType())) {
+                lowPriority.add(entity);
+            } else {
+                normalPriority.add(entity);
+            }
+        }
+
+        // Remove excess mobs, starting with low priority
+        int toRemove = mobCount - dynamicLimit;
+        if (toRemove > 0) {
+            // Remove low priority first
+            for (Entity entity : lowPriority) {
+                if (toRemove <= 0) break;
+                entity.remove();
+                toRemove--;
+            }
+            // Then normal priority if needed
+            for (Entity entity : normalPriority) {
+                if (toRemove <= 0) break;
+                entity.remove();
+                toRemove--;
+            }
+        }
+    }
+
+    private double getSmartCapMultiplier(double tps) {
+        for (Map.Entry<Double, Double> entry : this.smartcap_tps_multipliers.entrySet()) {
+            if (tps >= entry.getKey()) {
+                return entry.getValue();
+            }
+        }
+        // Return lowest multiplier if TPS is very low
+        return this.smartcap_tps_multipliers.isEmpty() ? 1.0 : this.smartcap_tps_multipliers.lastEntry().getValue();
+    }
+
+    private boolean isProtected(Entity entity) {
+        if (this.smartcap_protect_named && entity.getCustomName() != null) return true;
+        if (this.smartcap_protect_tamed && entity instanceof Tameable && ((Tameable) entity).isTamed()) return true;
+        if (this.smartcap_protect_leashed && entity instanceof LivingEntity && ((LivingEntity) entity).isLeashed()) return true;
+        if (!this.ignore_models && HookManager.getInstance().getModel().hasModel(entity)) return true;
+        return false;
     }
 
     @Override
@@ -180,6 +277,28 @@ public class EntityLimiterModule extends AbstractModule implements Listener {
             this.overflow_projectiles = this.projectiles > 0 && this.getSection().getBoolean("overflow_purge.types.projectiles");
             this.overflow_named = this.getSection().getBoolean("overflow_purge.types.named");
         }
+
+        // Smart Mob Cap config
+        this.smartcap_interval = this.getSection().getInt("smart_cap.check_interval");
+        this.smartcap_enabled = this.smartcap_interval > 0 && this.getSection().getBoolean("smart_cap.enabled");
+        if (this.smartcap_enabled) {
+            this.smartcap_tps_multipliers.clear();
+            for (String entry : this.getSection().getStringList("smart_cap.tps_multipliers")) {
+                String[] parts = entry.split(":");
+                if (parts.length == 2) {
+                    try {
+                        double tps = Double.parseDouble(parts[0]);
+                        double multiplier = Double.parseDouble(parts[1]);
+                        this.smartcap_tps_multipliers.put(tps, multiplier);
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+            ReflectionUtils.convertEnums(EntityType.class, this.smartcap_priority_high, this.getSection().getStringList("smart_cap.priority_high"));
+            ReflectionUtils.convertEnums(EntityType.class, this.smartcap_priority_low, this.getSection().getStringList("smart_cap.priority_low"));
+            this.smartcap_protect_named = this.getSection().getBoolean("smart_cap.protect_named");
+            this.smartcap_protect_tamed = this.getSection().getBoolean("smart_cap.protect_tamed");
+            this.smartcap_protect_leashed = this.getSection().getBoolean("smart_cap.protect_leashed");
+        }
         return true;
     }
 
@@ -188,6 +307,9 @@ public class EntityLimiterModule extends AbstractModule implements Listener {
         HandlerList.unregisterAll(this);
         if (this.overflow_task != null) {
             this.overflow_task.cancel();
+        }
+        if (this.smartcap_task != null) {
+            this.smartcap_task.cancel();
         }
     }
 }

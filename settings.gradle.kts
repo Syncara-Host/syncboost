@@ -2,15 +2,17 @@ rootProject.name = "SyncBoost"
 
 include("plugin")
 
-// Legacy NMS versions (require BuildTools + Java 8-16)
-// Uncomment if you need support for older Minecraft versions
-// include("nms:v1_16_R3")  // 1.16.5
-// include("nms:v1_17_R1")  // 1.17.1
-// include("nms:v1_18_R2")  // 1.18.2
-// include("nms:v1_19_R3")  // 1.19.4
-// include("nms:v1_20_R1")  // 1.20-1.20.1
-// include("nms:v1_20_R2")  // 1.20.2
-// include("nms:v1_20_R3")  // 1.20.3-1.20.4
+// Note: v1_16_R3 is excluded - requires Java 8 buildtools setup
+// To build v1_16_R3: run BuildTools for 1.16.5, then uncomment below
+// include("nms:v1_16_R3")  // 1.16.5 - requires Java 8
+
+// Legacy NMS versions (use paperweight-userdev + Java 17 toolchain)
+include("nms:v1_17_R1")  // 1.17.1
+include("nms:v1_18_R2")  // 1.18.2
+include("nms:v1_19_R3")  // 1.19.4
+include("nms:v1_20_R1")  // 1.20-1.20.1
+include("nms:v1_20_R2")  // 1.20.2
+include("nms:v1_20_R3")  // 1.20.3-1.20.4
 
 // Modern NMS versions (use paperweight-userdev, no BuildTools needed)
 include("nms:v1_20_R4")  // 1.20.5-1.20.6

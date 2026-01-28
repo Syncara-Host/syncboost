@@ -149,10 +149,10 @@ public class MobAiReducer extends MobAiReducerModule.NMS implements Listener {
     public void onLoad(EntitiesLoadEvent e) {
         if (!this.getModule().canContinue(e.getWorld())) return;
 
-        if (this.getModule().isAsync()) {
-            SupportManager.getInstance().getExecutor().execute(() -> this.optimizeEntities(e.getEntities()));
-        } else {
-            this.optimizeEntities(e.getEntities());
+        for (org.bukkit.entity.Entity entity : e.getEntities()) {
+            if (this.getModule().isEnabled(entity)) {
+                this.scheduleOptimize(entity);
+            }
         }
     }
 

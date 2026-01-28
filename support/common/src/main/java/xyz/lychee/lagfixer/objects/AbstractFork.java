@@ -32,6 +32,10 @@ public abstract class AbstractFork {
 
     public abstract double getMspt();
 
+    public boolean isFolia() {
+        return false;
+    }
+
     public abstract boolean isSupportMspt();
 
     public abstract PluginCommand registerCommand(Plugin var1, String var2, List<String> var3, CommandExecutor var4);

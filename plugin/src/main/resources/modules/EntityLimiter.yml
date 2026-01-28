@@ -34,3 +34,43 @@ EntityLimiter:
         vehicles: true
         projectiles: true
         named: false # If "false" overflow purge won't remove entities with a custom name
+
+    # Smart Mob Cap - Dynamic mob limits based on server TPS with priority-based removal
+    smart_cap:
+      enabled: true
+      check_interval: 10 # How often to check and enforce limits (in seconds)
+      
+      # Dynamic multiplier based on TPS (limit = base_limit * multiplier)
+      # Format: "TPS:multiplier" - when TPS drops below threshold, use that multiplier
+      tps_multipliers:
+        - "20.0:1.0"   # At 20 TPS -> 100% of normal limit
+        - "18.0:0.75"  # At 18 TPS -> 75% of normal limit
+        - "15.0:0.5"   # At 15 TPS -> 50% of normal limit
+        - "10.0:0.25"  # At 10 TPS -> 25% of normal limit
+      
+      # High priority entities - NEVER removed by smart cap
+      priority_high:
+        - ENDER_DRAGON
+        - WITHER
+        - ELDER_GUARDIAN
+        - WARDEN
+        - VILLAGER
+        - IRON_GOLEM
+        - SNOW_GOLEM
+        - ALLAY
+      
+      # Low priority entities - Removed FIRST when over limit
+      priority_low:
+        - ZOMBIE
+        - SKELETON
+        - SPIDER
+        - CREEPER
+        - DROWNED
+        - HUSK
+        - STRAY
+        - PHANTOM
+      
+      # Protection settings
+      protect_named: true     # Never remove entities with custom names
+      protect_tamed: true     # Never remove tamed animals (wolves, cats, etc.)
+      protect_leashed: true   # Never remove leashed entities

@@ -135,14 +135,12 @@ public class MobAiReducer extends MobAiReducerModule.NMS implements Listener {
     public void onSpawn(ChunkLoadEvent e) {
         if (!this.getModule().canContinue(e.getWorld())) return;
 
-        SupportManager.getInstance().getExecutor().execute(() -> {
-            org.bukkit.entity.Entity[] entities = e.getChunk().getEntities();
-            for (org.bukkit.entity.Entity entity : entities) {
-                if (this.getModule().isEnabled(entity)) {
-                    this.optimize(entity, false);
-                }
+        org.bukkit.entity.Entity[] entities = e.getChunk().getEntities();
+        for (org.bukkit.entity.Entity entity : entities) {
+            if (this.getModule().isEnabled(entity)) {
+                this.scheduleOptimize(entity);
             }
-        });
+        }
     }
 
     public void removeGoals(Set<PathfinderGoalWrapped> goals, Predicate<PathfinderGoalWrapped> filter) {

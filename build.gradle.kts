@@ -9,12 +9,21 @@ val sonatypeRepo = "https://oss.sonatype.org/content/groups/public/";
 val jitpack = "https://jitpack.io"
 val mojang = "https://libraries.minecraft.net";
 
-version = "1.0.0"
+version = "1.5.0-FoliaReady"
 extra["syncboost_version"] = version
-extra["syncboost_build"] = "1"
+extra["syncboost_build"] = "2"
 
 dependencies {
     implementation(project(":plugin"))
+
+    // Legacy NMS versions (1.17.1 - 1.20.4) - Java 17
+    // Note: v1_16_R3 excluded - requires Java 8 BuildTools setup
+    implementation(project(":nms:v1_17_R1"))
+    implementation(project(":nms:v1_18_R2"))
+    implementation(project(":nms:v1_19_R3"))
+    implementation(project(":nms:v1_20_R1"))
+    implementation(project(":nms:v1_20_R2"))
+    implementation(project(":nms:v1_20_R3"))
 
     // Modern NMS versions (1.20.5+)
     implementation(project(":nms:v1_20_R4"))
@@ -77,6 +86,6 @@ allprojects {
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
