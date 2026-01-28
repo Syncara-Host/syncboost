@@ -24,7 +24,8 @@
 - **⚡ Asynchronous Core:** Built to be ultra-lightweight, ensuring the optimization process never burdens your server.
 
 > [!IMPORTANT]
-> SyncBoost is optimized for **modern Minecraft infrastructure (1.20.5 - 1.21.x)** and requires **Java 21** to leverage the latest JVM performance enhancements.
+> SyncBoost is optimized for **modern Minecraft infrastructure (1.20.5 - 1.21.x)** but also fully supports **legacy versions (1.17.1 - 1.20.4)**.
+> Recommended **Java 21**, minimum **Java 17**.
 
 ---
 
@@ -32,8 +33,8 @@
 
 | Requirement | Version |
 | :--- | :--- |
-| **Java** | 21 or newer (**Required**) |
-| **Minecraft** | 1.20.5 - 1.21.4+ |
+| **Java** | 17 or newer (**Required**) |
+| **Minecraft** | 1.17.1 - 1.21.4+ |
 | **Server Software** | Spigot, Paper, Purpur, Pufferfish, Folia, or compatible forks |
 
 ---
@@ -44,7 +45,7 @@ SyncBoost is modular by design. Enable or disable features as needed via the in-
 | Module | Impact | Description |
 | :--- | :--- | :--- |
 | **MobAiReducer** | 🔴 Very High | Optimizes creature pathfinding and AI behavior. Essential for farm-heavy survival servers. |
-| **EntityLimiter** | 🔴 High | Enforces hard limits on entity counts per chunk to prevent mass breeding lag. |
+| **EntityLimiter** | 🔴 High | Enforces limits on entity counts. Features **Smart Mob Cap** effectively balancing mob density based on server TPS. |
 | **LagShield** | 🔴 High | Active monitoring that triggers safety measures (e.g., pausing spawners) when TPS drops critically. |
 | **ExplosionOptimizer** | 🔴 High | Efficiently handles TNT and crystal explosions to prevent physics ticks from stalling the main thread. |
 | **ItemsCleaner** | 🟡 Medium | Periodically removes ground items. Features an "Abyss" system for item recovery via `/abyss`. |
@@ -147,12 +148,12 @@ We explicitly acknowledge and thank **[Jenya705](https://github.com/Jenya705)** 
 
 <details>
 <summary><b>Why does SyncBoost require Java 21?</b></summary>
-<p>Java 21 offers significant performance improvements and is the current LTS (Long-Term Support) version. Modern Minecraft servers (1.20.5+) already expect Java 21.</p>
+<p>Java 21 offers significant performance improvements and is recommended for modern servers. However, SyncBoost now supports Java 17 for legacy server compatibility.</p>
 </details>
 
 <details>
 <summary><b>Will older Minecraft versions be supported?</b></summary>
-<p>The source code for 1.16.5 - 1.20.4 exists but is currently disabled. Future builds may re-enable legacy support.</p>
+<p>Yes! Support for 1.17.1 - 1.20.4 has been re-enabled. Even 1.16.5 is supported via manual build configuration.</p>
 </details>
 
 <details>
