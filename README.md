@@ -6,7 +6,7 @@
   </p>
   <p>
     <a href="https://modrinth.com/plugin/syncboost"><img src="https://img.shields.io/badge/Download-Modrinth-00AF5C?style=for-the-badge&logo=modrinth" alt="Modrinth"></a>
-    <a href="https://github.com/SyncaraHost/SyncBoost"><img src="https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github" alt="GitHub"></a>
+    <a href="https://github.com/Syncara-Host/SyncBoost"><img src="https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github" alt="GitHub"></a>
     <a href="https://syncara.host/discord"><img src="https://img.shields.io/badge/Support-Discord-5865F2?style=for-the-badge&logo=discord" alt="Discord"></a>
   </p>
 </div>
