@@ -10,6 +10,7 @@ import xyz.lychee.lagfixer.commands.MenuCommand;
 import xyz.lychee.lagfixer.managers.ModuleManager;
 import xyz.lychee.lagfixer.objects.AbstractMenu;
 import xyz.lychee.lagfixer.objects.AbstractModule;
+import xyz.lychee.lagfixer.utils.GUIUtils;
 import xyz.lychee.lagfixer.utils.MessageUtils;
 
 import java.util.ArrayList;
@@ -38,9 +39,14 @@ public class ModulesMenu extends AbstractMenu {
                     meta.setDisplayName(MessageUtils.fixColors(null, "&9&lModule: &b&l" + module.getName()));
                     ArrayList<String> lore = new ArrayList<>();
 
-                    lore.add(MessageUtils.fixColors(null, " §8» §7Status: " + (module.isLoaded() ? "&a&lENABLED" : "&c&lDISABLED")));
+                    // Enhanced status display with visual indicators
+                    String statusSymbol = GUIUtils.getStatusSymbol(module.isLoaded());
+                    lore.add(MessageUtils.fixColors(null, " §8» §7Status: " + statusSymbol + " " + (module.isLoaded() ? "&a&lENABLED" : "&c&lDISABLED")));
                     lore.add(MessageUtils.fixColors(null, " §8» §7Customizable values: &b" + module.getSection().getValues(true).values().stream().filter(obj -> !(obj instanceof ConfigurationSection)).count()));
-                    lore.add(MessageUtils.fixColors(null, " §8» §7Performance: " + Language.getSerializer().serialize(module.getImpact().getComponent())));
+                    
+                    // Performance impact with color coding
+                    String impactText = Language.getSerializer().serialize(module.getImpact().getComponent());
+                    lore.add(MessageUtils.fixColors(null, " §8» §7Performance Impact: " + impactText));
                     lore.add("");
                     lore.add(MessageUtils.fixColors(null, "&b&nClick to modify configuration!"));
                     lore.add("");

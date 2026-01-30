@@ -15,6 +15,7 @@ import xyz.lychee.lagfixer.objects.AbstractMenu;
 import xyz.lychee.lagfixer.objects.AbstractModule;
 import xyz.lychee.lagfixer.objects.AbstractMonitor;
 import xyz.lychee.lagfixer.objects.AbstractSupportNms;
+import xyz.lychee.lagfixer.utils.GUIUtils;
 import xyz.lychee.lagfixer.utils.ItemBuilder;
 import xyz.lychee.lagfixer.utils.MessageUtils;
 
@@ -58,12 +59,19 @@ public class MainMenu extends AbstractMenu {
         );
 
         AbstractMonitor monitor = support.getMonitor();
+        double tps = monitor.getTps();
+        double mspt = monitor.getMspt();
+        long ramUsed = monitor.getRamUsed();
+        long ramMax = monitor.getRamMax();
+        double ramPercentage = (ramUsed / (double) ramMax) * 100.0;
+        
         i2.setLore(
-                " §8» §7TPS: §b" + monitor.getTps(),
-                " §8» §7MSPT: §b" + monitor.getMspt(),
-                " §8» §7Memory: §b" + monitor.getRamUsed() + "§8/§b" + monitor.getRamTotal() + "§8/§b" + monitor.getRamMax() + " MB",
-                " §8» §7CPU Process: §b" + monitor.getCpuProcess() + "§f%",
-                " §8» §7CPU System: §b" + monitor.getCpuSystem() + "§f%",
+                " §8» §7TPS: " + GUIUtils.getTPSColor(tps) + GUIUtils.formatNumber(tps) + " " + GUIUtils.getPerformanceIndicator(tps),
+                " §8» §7MSPT: " + GUIUtils.getMSPTColor(mspt) + GUIUtils.formatNumber(mspt) + "ms",
+                " §8» §7Memory: " + GUIUtils.getMemoryColor(ramPercentage) + ramUsed + "§8/§7" + ramMax + " MB",
+                " §8   " + GUIUtils.createProgressBar(ramUsed, ramMax, 10) + " §7" + GUIUtils.formatNumber(ramPercentage) + "%",
+                " §8» §7CPU Process: §b" + GUIUtils.formatNumber(monitor.getCpuProcess()) + "§f%",
+                " §8» §7CPU System: §b" + GUIUtils.formatNumber(monitor.getCpuSystem()) + "§f%",
                 "",
                 "§bClick to open hardware menu!"
         );
