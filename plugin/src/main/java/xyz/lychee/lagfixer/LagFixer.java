@@ -7,6 +7,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.lychee.lagfixer.managers.*;
 import xyz.lychee.lagfixer.objects.AbstractManager;
+import xyz.lychee.lagfixer.utils.OversellDetector;
 import xyz.lychee.lagfixer.utils.TimingUtil;
 
 import java.util.ArrayList;
@@ -36,6 +37,15 @@ public class LagFixer extends JavaPlugin {
         this.loadManager(new UpdaterManager(this));
         this.loadManager(new ModuleManager(this));
         this.loadManager(new CommandManager(this));
+        
+        // Check for resource overselling
+        OversellDetector.OversellResult oversellCheck = 
+            OversellDetector.quickCheck();
+        if (oversellCheck.isOverselling()) {
+           this.logger.warning("⚠ Potential resource overselling detected!");
+            this.logger.warning("Run '/syncboost benchmark' for detailed analysis.");
+        }
+        
         this.getLogger().info("§aEnabled successfully!");
     }
 

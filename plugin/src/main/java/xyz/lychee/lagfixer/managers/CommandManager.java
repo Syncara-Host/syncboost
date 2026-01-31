@@ -41,7 +41,9 @@ public class CommandManager extends AbstractManager implements Listener, TabExec
                 new PingCommand(this),
                 new ReloadCommand(this),
                 new FreeCommand(this),
-                new SmartCapCommand(this)
+                new SmartCapCommand(this),
+                new ChunkAnalyzerCommand(this),
+                new MemoryCommand(this)
         );
     }
 

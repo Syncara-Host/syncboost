@@ -48,6 +48,7 @@ SyncBoost is modular by design. Enable or disable features as needed via the in-
 | **EntityLimiter** | 🔴 High | Enforces limits on entity counts. Features **Smart Mob Cap** effectively balancing mob density based on server TPS. |
 | **LagShield** | 🔴 High | Active monitoring that triggers safety measures (e.g., pausing spawners) when TPS drops critically. |
 | **ExplosionOptimizer** | 🔴 High | Efficiently handles TNT and crystal explosions to prevent physics ticks from stalling the main thread. |
+| **ChunkAnalyzer** | 🔴 High | Scans and identifies problematic chunks with high entity/tile entity counts. Features interactive GUI with teleportation. |
 | **ItemsCleaner** | 🟡 Medium | Periodically removes ground items. Features an "Abyss" system for item recovery via `/abyss`. |
 | **RedstoneLimiter** | 🟡 Medium | Detects and suppresses rapid-pulsing redstone clocks that cause TPS drops. |
 | **VehicleMotionReducer** | 🟡 Medium | Optimizes boat and minecart collisions, movement logic, and removes mineshaft clutter. |
@@ -66,6 +67,8 @@ All commands use the `/syncboost` (or alias `/sb`) prefix.
 | `/syncboost monitor` | View real-time server statistics (TPS, MSPT, RAM, CPU). |
 | `/syncboost map` | Get a map item that displays a live performance graph. |
 | `/syncboost benchmark` | Run a CPU/RAM stress test to measure server hardware performance. |
+| `/syncboost chunks [world]` | Analyze chunks for performance issues. Opens GUI or shows results for a specific world. |
+| `/syncboost memory` | Analyze memory usage, detect leaks, and view GC metrics. Subcommands: `gc`, `gui`, `listeners`. |
 | `/syncboost free` | Force run the Java Garbage Collector (GC). |
 | `/syncboost clear <type>` | Manually clear entities: `items`, `creatures`, or `projectiles`. |
 | `/syncboost ping [player]` | Check average player latency or a specific player's ping. |

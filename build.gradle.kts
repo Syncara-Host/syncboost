@@ -9,9 +9,9 @@ val sonatypeRepo = "https://oss.sonatype.org/content/groups/public/";
 val jitpack = "https://jitpack.io"
 val mojang = "https://libraries.minecraft.net";
 
-version = "1.2.1"
+version = "1.2.2"
 extra["syncboost_version"] = version
-extra["syncboost_build"] = "6"
+extra["syncboost_build"] = "7"
 
 dependencies {
     implementation(project(":plugin"))

@@ -15,6 +15,7 @@ import xyz.lychee.lagfixer.objects.AbstractMonitor;
 import xyz.lychee.lagfixer.utils.GUIUtils;
 import xyz.lychee.lagfixer.utils.ItemBuilder;
 import xyz.lychee.lagfixer.utils.MessageUtils;
+import xyz.lychee.lagfixer.utils.OversellDetector;
 
 public class MainMenu extends AbstractMenu {
     
@@ -138,6 +139,9 @@ public class MainMenu extends AbstractMenu {
                 " §8│  " + GUIUtils.createProgressBar(ramUsed, ramMax, 12) + " §7" + GUIUtils.formatNumber(ramPercentage) + "%",
                 " §8│",
                 " §8└─ CPU: §b§l" + GUIUtils.formatNumber(cpuProcess) + "%",
+                "",
+                " §8[RESOURCE HEALTH]",
+                " " + OversellDetector.quickCheck().getShortStatus(),
                 "",
                 "§b§nClick for detailed hardware info!"
         );

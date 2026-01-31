@@ -1,0 +1,27 @@
+ChunkAnalyzer:
+  enabled: true
+  worlds: # Use '*' to enable for all worlds.
+    - '*'
+  values:
+    # Score weights for lag calculation
+    # Higher weight = more impact on lag score
+    entity_weight: 1.0        # Base weight for all entities
+    creature_weight: 1.5      # Extra weight for living creatures (AI overhead)
+    tile_entity_weight: 2.0   # Weight for tile entities (chests, furnaces, etc.)
+    hopper_weight: 3.0        # Weight for hoppers (very performance-intensive)
+    redstone_weight: 2.5      # Weight for redstone components
+    
+    # Thresholds for warning levels
+    # These determine the severity color in the GUI
+    warning_threshold: 50     # Yellow - worth monitoring
+    danger_threshold: 100     # Red - causing noticeable lag
+    critical_threshold: 200   # Dark red - severe performance impact
+    
+    # How many top chunks to show in results
+    top_chunks_limit: 10
+    
+    # Automatic scanning settings
+    auto_scan:
+      enabled: false          # Enable automatic periodic scanning
+      interval: 300           # Scan interval in seconds (5 minutes default)
+      alert_on_danger: true   # Log warning when danger chunks found

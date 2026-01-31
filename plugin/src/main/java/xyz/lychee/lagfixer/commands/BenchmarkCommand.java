@@ -61,10 +61,20 @@ public class BenchmarkCommand extends CommandManager.Subcommand {
                 String result = b.getResult().toString();
                 ErrorsManager.getInstance().sendBenchmark(b);
 
-                MessageUtils.sendMessage(true, sender, "&9&lSyncBoost &8» &7Benchmark done in &b" + t.stop().getExecutingTime() + "&7ms, results:&f" + result);
+                MessageUtils.sendMessage(true, sender, "§9§lSyncBoost §8» §7Benchmark done in §b" + t.stop().getExecutingTime() + "§7ms, results:§f" + result);
                 this.getCommandManager().getPlugin().getLogger().info(result);
+                
+                // Check for overselling after benchmark
+                xyz.lychee.lagfixer.utils.OversellDetector.OversellResult oversellResult = 
+                    xyz.lychee.lagfixer.utils.OversellDetector.detectOverselling(b);
+                
+                if (oversellResult.isOverselling()) {
+                    MessageUtils.sendMessage(true, sender, oversellResult.getWarningMessage());
+                } else if (oversellResult.isDataAvailable()) {
+                    MessageUtils.sendMessage(true, sender, "\n§a✓ No overselling detected - your resources appear healthy!");
+                }
             } catch (Exception e) {
-                MessageUtils.sendMessage(true, sender, "&cBenchmark error: " + e.getMessage());
+                MessageUtils.sendMessage(true, sender, "§cBenchmark error: " + e.getMessage());
             }
             this.benchmark = false;
         });
